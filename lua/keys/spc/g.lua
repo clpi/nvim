@@ -1,0 +1,15 @@
+lvim.builtin.which_key.mappings.g = { name = "+goto",
+  p = { "<CMD>Telescope projects<CR>", "fd proj"},
+  d = { "lua vim.lsp.buf.definition()", "def" },
+  l = { "lua vim.lsp.buf.declaration()", "decl" },
+  m = { "lua vim.lsp.buf.implementation()", "impl" },
+  i = { "lua vim.lsp.buf.type_definition()", "type" },
+  t = { "lua vim.lsp.buf.document_symbol()", "symbol" },
+  s = { "lua vim.lsp.buf.workspace_symbol()", "symbol" },
+  r = { "lua vim.lsp.buf.references()", "ref" },
+  n = { "lua vim.lsp.buf.rename()", "rename" },
+  f = { "lua vim.lsp.buf.formatting()", "format" },
+  c = { "lua vim.lsp.buf.code_action()", "code" },
+  e = { "lua vim.lsp.buf.document_highlight()", "highlight" },
+
+}

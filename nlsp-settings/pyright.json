@@ -1,0 +1,7 @@
+{
+  "pyright.disableOrganizeImports": false,
+  "python.analysis.useLibraryCodeForTypes": true,
+  "python.pythonPath": "/bin/python3.10",
+  "pyright.disableLanguageServices": false,
+  "python.analysis.typeCheckingMode": "basic"
+}

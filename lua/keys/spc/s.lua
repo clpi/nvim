@@ -1,0 +1,20 @@
+lvim.builtin.which_key.mappings["s"] = {
+  name = "+search",
+  ["<cr>"] = { ":SearchBoxReplace<CR>", "search box" },
+  ["i"] = { ":SearchBoxIncSearch<CR>", "search box" },
+  ["<space>"] = { ":s/<c-r>///g<Left><Left>", "repl cursor word" },
+  ["<tab>"] = { ":%s///gi<left><left><left><left>", "replace" },
+  ["-"] = { "<ESC>:split<CR>", "splith" },
+  ["_"] = { "<ESC>:vsplit<CR>", "splitv" },
+  [","] = { "<ESC>:SearchBoxSimple<CR>", "Simple" },
+  ["."] = { "<ESC>:SearchBoxReplace<CR>", "Simple" },
+  [">"] = { "<ESC>:SearchBoxReplace<CR>", "Simple" },
+  ["/"] = { "<ESC>:SearchBoxReplace<CR>", "replace" },
+  z = { ":Telescope zoxide list theme=dropdown<CR>", "zoxide" },
+  r = { ":SearchBoxReplace<CR>", "find & r" },
+  b = { ":Telescope current_buffer_fuzzy_find<CR>", "fuzzy find" },
+  R = { ":%s///gi<left><left><left><left>", "replace" },
+  s = { "<ESC>:SearchBoxIncSearch<CR>", "IncSearch" },
+  M = { "<ESC>:SearchBoxMatchAll<CR>", "MatchAll" },
+  S = { "<ESC>:SearchBoxSimple<CR>", "Simple" }
+}
