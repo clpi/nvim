@@ -11,7 +11,7 @@ map("i", "<C-l>", "copilot#Accept('<CR>')", { expr = true, script = true, silent
 map("i", "<C-h>", "copilot#Dismiss()", { expr = true, script = true, silent = true })
 map("i", "<C-s>", "copilot#Clear()", { expr = true, script = true, silent = true })
 
-map("i", '<C-b>', "copitlot#Browser()", { expr = true, script = true, silent = true })
+-- map("i", '<C-s>', "copitlot#Browser()", { expr = true, script = true, silent = true })
 
 map("i", "<C-Tab>", "copilot#Next()", { expr = true, script = true, silent = true })
 map("i", "<C-S-Tab>", "copilot#Previous()", { expr = true, script = true, silent = true })

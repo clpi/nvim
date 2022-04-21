@@ -241,11 +241,19 @@ map ('n', '<space>T', ':Trouble<CR>', default)
 
 -- FZF (<C-f> and <space>f)
 map ('n', '<c-f><c-f>', ':Telescope find_files<CR>', default)
--- map ('n', '<c-f><c-w>', ':Files ~/wiki<CR>', default)
+map ('n', '<c-f><c-w>', ':FzfLua files cwd=~/mk<CR>', default)
 map ('n', '<c-f><c-h>', ':Telescope oldfiles<CR>', default)
 map ('n', '<c-f><c-b>', ':Telescope buffers<CR>', default)
 map ('n', '<c-f><c-c>', ':Telescope commands<CR>', default)
-
+map ('n', '<c-f><c-p>', ':Telescope commands<CR>', default)
+map ('n', '<c-f><c-f>', ':FzfLua files<CR>', default)
+map ('n', '<c-f><c-o>', ':FzfLua oldfiles<CR>', default)
+map ('n', '<c-f><c-r>', ':FzfLua files cwd=~/<CR>', default)
+map ('n', '<c-f><c-d>', ':FzfLua files cwd=~/.config/<CR>', default)
+map ('n', '<c-f><c-n>', ':FzfLua files cwd=~/.config/nvim<CR>', default)
+map ('n', '<c-f><c-h>', ':Telescope oldfiles<CR>', default)
+map ('n', '<c-f><c-b>', ':Telescope buffers<CR>', default)
+map ('n', '<c-f><c-c>', ':Telescope commands<CR>', default)
 -- Snippets (<space>s)
 -- map ('n', '<leader>so', ':VsnipOpen<CR>1<Co>', default)
 -- map ('n', '<leader>se', ':VsnipOpenEdit<CR>1oCR>', default)
@@ -943,9 +951,13 @@ vim.cmd[[
   im <C-X><C-S> <Esc>:w<CR>a 
 ]]
 
-require("keys.c-f")
+require("keys.c-g")
 require("keys.c-s")
 require("keys.c-c")
 require("keys.spc")
+
+
+vim.keymap.set({ "n", "i", "v"}, "<C-f>", "<C-u>", { silent = true, nowait = true })
+vim.keymap.set({ "n", "i", "v"}, "<C-d>", "<C-d>", { silent = true, nowait = true })
 -- require("keys.c-c")
 vim.keymap.set({"n", "i", "v"}, "<C-\\>", "<CMD>Copilot panel<CR>", df)
