@@ -16,6 +16,8 @@ M.n = { maps = { name = "+search",
     r = {":SearchBoxReplace<CR>", "find & r"},
     b = { ":Telescope current_buffer_fuzzy_find<CR>", "fuzzy find"},
     R = { ":%s///gi<left><left><left><left>", "replace"},
+    ["?"] = { ":%s/", "replace"},
+    ["<tab>"] = { ":%s/", "replace"},
     s = {"<ESC>:SearchBoxIncSearch<CR>", "IncSearch"},
     M = {"<ESC>:SearchBoxMatchAll<CR>", "MatchAll" },
     S = {"<ESC>:SearchBoxSimple<CR>", "Simple" }

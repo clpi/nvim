@@ -1,12 +1,13 @@
 local M = {}
 
+M.install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+
 M.preinit = function()
-  local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
   -- local plug = require "plug"
 
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  if vim.fn.empty(vim.fn.glob(M.install_path)) > 0 then
+    vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. M.install_path)
   end
   vim.cmd [[
     augroup packer_user_config
@@ -27,10 +28,21 @@ end
 M.init = function()
   local packer = M.preinit()
   packer.init {
+    compile_path = M.install_path,
+    max_jobs = 8,
+    compile_on_sync = true,
     display = {
+      title = "Packer",
+      prompt_border = "rounded",
       open_fn = function()
         return require("packer.util").float { border = "rounded" }
       end,
+    },
+    git = {
+      clone_timeout = 300,
+    },
+    profile = {
+      enable = true,
     },
   }
 end

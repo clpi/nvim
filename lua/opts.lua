@@ -32,20 +32,65 @@ o.makeprg = "just \\$*"
 o.copyindent = true
 o.hidden = true
 o.undofile = true
-o.wildmode = "list:longest,full"
+o.wildmode = "full"
 o.wildoptions = "tagfile,pum"
+o.preserveindent = true
+o.cindent = true
+o.joinspaces = false
+o.matchtime = 10
+
 o.relativenumber = false
 
 o.shiftwidth = 0
 o.autochdir = true
 o.list = true
 o.autoindent = true
-o.clipboard="unnamedplus"
+o.clipboard="unnamedplus,unnamed"
+o.redrawtime = 300
+o.signcolumn = "yes:1"
+o.numberwidth=3
+-- o.formatoptions:append('j')
+-- o.formatoptions:append('r')
+-- o.formatoptions:append('a')
+-- o.formatoptions:append('o')
+-- o.shortmess = {
+--   t = true,
+--   A = true,
+--   o = true,
+--   O = true,
+--   T = true,
+--   f = true,
+--   F = true,
+--   s = true,
+--   c = true,
+--   w = true,
+-- }
+-- o.listchars = {
+--     tab = '▏ ',
+--     trail = '·',
+--     -- nbsp = '⍽',
+--     extends = '>',
+--     precedes = '<',
+-- }
+-- o.fillchars = {
+--     eob = ' ',
+-- }
 o.sidescrolloff=2
 o.ruler=true
 o.tabstop = 4
 o.modeline=true
+o.foldexpr = 'nvim_treesitter#foldexpr()'
+o.foldlevel = 120
+o.foldnestmax = 4
+o.foldmethod = "expr"
+o.foldminlines = 1
 o.softtabstop = 0
+o.undofile = true
+o.undodir =  vim.fn.expand(vim.fn.stdpath('data') .. '/undo//')
+o.titlelen = 64
+o.titlestring = "Neovim: %f %m"
+o.virtualedit = 'onemore'
+
 o.cursorline=true
 o.smarttab = true
 o.formatoptions="l"
@@ -55,9 +100,11 @@ o.lazyredraw = true
 o.conceallevel=2
 o.concealcursor="nc"
 o.showtabline=2
-o.laststatus=2
 o.undolevels=1500
 o.belloff='all'
+o.mousefocus = true
+o.laststatus=3
+vim.g.modelines = 0
 o.grepprg = 'rg\\ --hidden\\ --vimgrep\\ --smart-case\\ --no-heading'
 --Make line numbers default
 vim.wo.number = true
@@ -87,3 +134,6 @@ vim.cmd [[colorscheme onedark]]
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menu,menuone,noselect,preview'
 
+
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0

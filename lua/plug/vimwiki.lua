@@ -1,4 +1,78 @@
-g = vim.g
+vim.cmd[[
+  nmap <Leader>wl <Plug>VimwikiToggleListItem
+  vmap <Leader>wl <Plug>VimwikiToggleListItem
+  nnoremap gwo :VimwikiChangeSymbolTo a)<CR>
+
+]]
+
+    vim.g.vimwiki_auto_chdir = 1
+    vim.g.vimwiki_global_ext = 1
+    vim.g.vimwiki_use_mouse = 1
+    vim.g.vimwiki_auto_header = 1
+    vim.g.vimwiki_hl_headers = 1
+    vim.g.vimwiki_hl_cb_checked = 1
+    vim.g.vimwiki_dir_link = "index"
+    vim.g.vimwiki_markdown_link_ext = 1
+    vim.g.vimwiki_links_header = "Links"
+    vim.g.vimwiki_links_header_level = 2
+    vim.g.vimwiki_global_ext = 1
+    vim.g.vimwiki_markdown_link_ext = 1
+    vim.g.vimwiki_create_link = 1
+    vim.g.vimwiki_tags_header = 'Tags'
+    vim.g.vimwiki_tags_header_level = 2
+    vim.g.vimwiki_toc_header = "Table of Contents"
+    vim.g.vimwiki_toc_header_level = 2
+    vim.g.vimwiki_list_margin = 2
+    -- vim.g.vimwiki_folding = 'expr'
+    vim.g.vimwiki_listing_hl = 1
+    vim.g.vimwiki_hl_cb_checked = 1
+    vim.g.vimwiki_generated_links_caption = 1
+    vim.g.vimwiki_html_filename_parameterization = 1
+    vim.g.vimwiki_html_header_numbering = 1
+    vim.g.vimwiki_dir_link = 'index'
+    vim.g.vimwiki_list_ignore_newline = 0
+    vim.g.vimwiki_listsyms = '✗○◐●✓'
+    vim.g.vimwiki_listsym_rejected = '✗'
+    vim.g.vimwiki_bullet_types = {'-', '•', '→'}
+    vim.g.vimwiki_list = {
+      {
+        name = 'mk',
+        path_html = "/home/clp/mk/.html",
+        path = '/home/clp/mk',
+        bullet_types = {'-', '•', '→'},
+        syntax = 'markdown',
+        option_maxhi = 1,
+        diary_rel_path = "diary",
+        dir_link = "index",
+        generated_links_caption = 1,
+        ext = '.md',
+        create_link = 1,
+        recurring_bullets = 1,
+        conceal_oncechar_markers = 1,
+        conceal_pre = 1,
+        automatic_nested_syntaxes = 1,
+        diary_caption_level = 1,
+        template_path = '~/mk/tmpl/',
+        template_default = "index",
+        diary_header = "Entries",
+        auto_toc = 0,
+        auto_tags = 1,
+        auto_export = 0,
+        auto_header = 1,
+        auto_generate_links = 1,
+        auto_generate_tags = 1,
+        auto_diary_index = 1,
+        rss_name = "miki.rss",
+        css_name = "style.css",
+        diary_frequency = "daily",
+        diary_index = "index",
+        diary_start_week_day = "sunday",
+        cycle_bullets = 1,
+        template_date_format = "%Y-%m-%d",
+        rx_todo = 'C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
+      }
+    }
+-- g = vim.g
 -- vim.cmd[[
 -- function <SID>ExpandTimestampTemplates()
 -- let l:day               = strftime('%a')
@@ -26,8 +100,6 @@ g = vim.g
 -- endfunction
 -- ]]
 -- --
--- g.vimwiki_auto_chdir = 1
--- g.vimwiki_global_ext = 1
 -- g.vimwiki_use_calendar = 1
 -- g.vimwiki_use_mouse = 1
 -- g.vimwiki_auto_header = 1
@@ -96,84 +168,84 @@ g = vim.g
 
 -- ]]
 
-g.vimwiki_list = {
-  {
-    name = 'mk',
-    path = '~/mk',
-    syntax = 'markdown',
-    ext = '.md',
-    path_html = "~/mk/.html",
-    template_path = "$HOME/mk/.tmpl/",
-    automatic_nested_syntaxes = 1,
-    diary_caption_level = 1,
-    template_ext = ".md",
-    -- bullet_types = [[-,•→]],
-    teplate_path = '~/mk/tmpl/',
-    template_default = "index",
-    auto_diary_index = 1,
-    diary_header = "Entries",
-    auto_generate_links = 1,
-    auto_generate_tags = 1,
-    css_name = "style.css",
-    diary_frequency = "daily",
-    diary_rel_path = "diary/",
-    diary_index = "index",
-    diary_start_week_day = "monday",
-    cycle_bullets = 1,
-    auto_tags = 1,
-    template_date_format = "%Y-%m-%d",
-    rx_todo = 'C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
-    --     },{
-    --         name= 'old mk',
-    --         path = '~/mk/archive/1',
-    --         syntax = 'markdown',
-    --         ext = '.md',
-    --         automatic_nested_syntaxes= 1,
-    --         path_html= '~/mk/html',
-    --         diary_caption_level= 1,
-    --         template_ext = ".html",
-    --         -- bullet_types = [[-,•→]],
-    --         teplate_path='~/mk/dev/tpl/html',
-    --         template_default = "index",
-    --         auto_diary_index=1,
-    --         diary_header= "Entries",
-    --         auto_generate_links=1,
-    --         auto_generate_tags=1,
-    --         css_name="style.css",
-    --         diary_frequency="daily",
-    --         diary_rel_path="diary/diary/",
-    --         diary_index="index",
-    --         diary_start_week_day="monday",
-    --         cycle_bullets=1,
-    --         auto_tags=1,
-    --         rwmplrW_Prh = "~/mk/archive/1/templates",
-    --         template_date_format="%Y-%m-%d",
-    --         rx_todo='C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
-    -- }, {
-    --     name = "clp",
-    --     path = "~/clp/mk",
-    --     syntax = "markdown",
-    --     ext = '.md',
-    --     automatic_nested_syntaxes= 1,
-    --     path_html= '~/mk/html',
-    --     diary_caption_level= 1,
-    --     template_ext = ".html",
-    --     -- bullet_types = [[-,•→]],
-    --     teplate_path='~/mk/dev/tpl/html',
-    --     template_default = "index",
-    --     auto_diary_index=1,
-    --     diary_header= "Entries",
-    --     auto_generate_links=1,
-    --     auto_generate_tags=1,
-    --     css_name="style.css",
-    --     diary_frequency="daily",
-    --     diary_rel_path="diary/diary/",
-    --     diary_index="index",
-    --     diary_start_week_day="monday",
-    --     cycle_bullets=1,
-    --     auto_tags=1,
-    --     rwmplrW_Prh = "~/mk/archive/1/templates",
-    --     template_date_format="%Y-%m-%d",
-    --     rx_todo='C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
-  }
-}
+-- g.vimwiki_list = {
+--   {
+--     name = 'mk',
+--     path = '~/mk',
+--     syntax = 'markdown',
+--     ext = '.md',
+--     path_html = "~/mk/.html",
+--     template_path = "$HOME/mk/.tmpl/",
+--     automatic_nested_syntaxes = 1,
+--     diary_caption_level = 1,
+--     template_ext = ".md",
+--     -- bullet_types = [[-,•→]],
+--     teplate_path = '~/mk/tmpl/',
+--     template_default = "index",
+--     auto_diary_index = 1,
+--     diary_header = "Entries",
+--     auto_generate_links = 1,
+--     auto_generate_tags = 1,
+--     css_name = "style.css",
+--     diary_frequency = "daily",
+--     diary_rel_path = "diary/",
+--     diary_index = "index",
+--     diary_start_week_day = "monday",
+--     cycle_bullets = 1,
+--     auto_tags = 1,
+--     template_date_format = "%Y-%m-%d",
+--     rx_todo = 'C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
+--     --     },{
+--     --         name= 'old mk',
+--     --         path = '~/mk/archive/1',
+--     --         syntax = 'markdown',
+--     --         ext = '.md',
+--     --         automatic_nested_syntaxes= 1,
+--     --         path_html= '~/mk/html',
+--     --         diary_caption_level= 1,
+--     --         template_ext = ".html",
+--     --         -- bullet_types = [[-,•→]],
+--     --         teplate_path='~/mk/dev/tpl/html',
+--     --         template_default = "index",
+--     --         auto_diary_index=1,
+--     --         diary_header= "Entries",
+--     --         auto_generate_links=1,
+--     --         auto_generate_tags=1,
+--     --         css_name="style.css",
+--     --         diary_frequency="daily",
+--     --         diary_rel_path="diary/diary/",
+--     --         diary_index="index",
+--     --         diary_start_week_day="monday",
+--     --         cycle_bullets=1,
+--     --         auto_tags=1,
+--     --         rwmplrW_Prh = "~/mk/archive/1/templates",
+--     --         template_date_format="%Y-%m-%d",
+--     --         rx_todo='C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
+--     -- }, {
+--     --     name = "clp",
+--     --     path = "~/clp/mk",
+--     --     syntax = "markdown",
+--     --     ext = '.md',
+--     --     automatic_nested_syntaxes= 1,
+--     --     path_html= '~/mk/html',
+--     --     diary_caption_level= 1,
+--     --     template_ext = ".html",
+--     --     -- bullet_types = [[-,•→]],
+--     --     teplate_path='~/mk/dev/tpl/html',
+--     --     template_default = "index",
+--     --     auto_diary_index=1,
+--     --     diary_header= "Entries",
+--     --     auto_generate_links=1,
+--     --     auto_generate_tags=1,
+--     --     css_name="style.css",
+--     --     diary_frequency="daily",
+--     --     diary_rel_path="diary/diary/",
+--     --     diary_index="index",
+--     --     diary_start_week_day="monday",
+--     --     cycle_bullets=1,
+--     --     auto_tags=1,
+--     --     rwmplrW_Prh = "~/mk/archive/1/templates",
+--     --     template_date_format="%Y-%m-%d",
+--     --     rx_todo='C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
+--   }
+-- }

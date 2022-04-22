@@ -104,7 +104,8 @@ M.n = { maps = { name = "+vim",
     Q = kconf("shiftq"),
     X = kconf("shiftx"),
     M = kconf("shiftm"),
-    z = kconf("z")
+    z = kconf("z"),
+    Z = kconf("zoxide")
   },
   i = { ":LuaConfInit<CR>", "init"},
   K = conf("keymaps"),

@@ -1,3 +1,30 @@
+local parsers = require "nvim-treesitter.parsers"
+local parser_config = parsers.get_parser_configs()
+
+parser_config.org = {
+  install_info = {
+    url = 'https://github.com/milisims/tree-sitter-org',
+    revision = 'main',
+    files = { 'src/parser.c', 'src/scanner.cc' },
+  },
+  filetype = 'org',
+}
+
+parser_config.norg_meta = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-meta",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+parser_config.norg_table = {
+    install_info = {
+        url = "https://github.com/nvim-neorg/tree-sitter-norg-table",
+        files = { "src/parser.c" },
+        branch = "main"
+    },
+}
+
 require('nvim-treesitter.configs').setup {
   autotag = { enable = true },
   ensure_installed = {
@@ -15,7 +42,9 @@ require('nvim-treesitter.configs').setup {
   "elixir", "sparql", "kotlin", "fennel", "gowork", "scheme",
   "ledger", "fusion", "lalrpop", "glimmer", "todotxt", "ql",
   "haskell", "graphql", "solidity", "supercollider", "r",
-  "vue"
+  "vue",
+    "norg", "norg_meta", "norg_table",
+    "org"
   },
   matchup = {
     enable = true,
@@ -33,8 +62,66 @@ incremental_selection = {
     node_decremental = 'grm',
   },
 },
+context_commentstring = {
+  enable = true,
+},
+playground = {
+  enable = true,
+  keybindings = {
+    focus_language = "f",
+      goto_node = "<CR>",
+      goto_next_start = "]",
+      goto_previous_start = "[",
+      goto_next_end = "}",
+      goto_previous_end = "{",
+      show_help = "?",
+      toggle_anonymous_modes = "a",
+      toggle_hl_groups = "i",
+      toggle_injected_languages = "t",
+      toggle_language_display = "I",
+      toggle_query_editor = "o",
+      unfocus_language = "F",
+      update = "R",
+  },
+  persist_queries = true,
+},
+query_linter = {
+    enable = true,
+    lint_events = { "BufWrite", "CursorHold" },
+},
+  refactor = {
+    highlight_current_scope = {
+      enable = false
+    },
+    highlight_definitions = {
+      clear_on_cursor_move = true,
+      enable = false,
+    },
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition = "gnd",
+        goto_next_usage = "gnu",
+        goto_previous_usage = "gpu",
+        list_definitions = "gnf",
+        list_definitions_toc = "gO",
+      }
+    },
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "gnr"
+      }
+    }
+  },
 indent = {
   enable = true,
+},
+textsubjects = {
+  enable = true,
+  keymaps = {
+
+  },
 },
 textobjects = {
   select = {

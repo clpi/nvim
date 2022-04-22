@@ -44,24 +44,24 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
     },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
+    -- ['<Tab>'] = cmp.mapping(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.select_next_item()
+    --   elseif luasnip.expand_or_jumpable() then
+    --     luasnip.expand_or_jump()
+    --   else
+    --     fallback()
+    --   end
+    -- end, { 'i', 's' }),
+    -- ['<S-Tab>'] = cmp.mapping(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.select_prev_item()
+    --   elseif luasnip.jumpable(-1) then
+    --     luasnip.jump(-1)
+    --   else
+    --     fallback()
+    --   end
+    -- end, { 'i', 's' }),
   }),
   completion = {
   },
@@ -73,12 +73,12 @@ cmp.setup {
     { name = 'copilot' },
     { name = 'nvim_lsp_signature_help' },
     { name = 'path' },
+    { name = "vimwiki-tags" },
     { name = 'neorg' },
     { name = 'orgmode' },
     { name = 'nvim_lsp_document_symbol' },
     { name = "luasnip", group_index = 4, option = { use_show_condition = false }},
     { name = 'buffer' },
-    { name = 'neorg' },
   },
 }
 
@@ -100,6 +100,21 @@ cmp.setup.cmdline('/', {
   }
 })
 
+
+cmp.setup.filetype({ 
+  "*.md", 
+  "markdown", 
+  "vimwiki.markdown", 
+  "vimwiki" }, 
+{
+  sources = {
+    { name = "vimwiki-tags"},
+    { name = "path"},
+    { name = "luasnip"},
+    { name = "buffer"},
+    { name = 'copilot' },
+  },
+})
 
 
 -- lcmp.formatting.source_names = {

@@ -1,7 +1,31 @@
--- local lspconfig = require 'lspconfig'
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  require('lsp_extensions.workspace.diagnostic').handler, {
+    float = {
+        source = "always",
+    },
+    severity_sort = true,
+    virtual_text = {
+      prefix = "»",
+      spacing = 2,
+    },
+    signs = {
+      active = true,
+      values = {
+        { name = "DiagnosticSignError", text = "" },
+        { name = "DiagnosticSignWarn", text = "" },
+        { name = "DiagnosticSignHint", text = "" },
+        { name = "DiagnosticSignInfo", text = "" },
+      }
+    },
+    update_in_insert = true,
+    underline = true,
+  }
+)
 local on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   local op = { noremap = true, silent = true, }
+  vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
+  vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
 
   vim.keymap.set("n",',s', vim.diagnostic.setloclist, { noremap = true, silent = true })
   vim.keymap.set("n",',a', '<ESC>:CodeActionMenu<CR>', op)

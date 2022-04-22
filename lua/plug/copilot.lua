@@ -1,13 +1,15 @@
 vim.g.copilot_enabled = true
-vim.g.copilot_no_tab_map = true
+vim.g.copilot_no_tab_map = false
 vim.g.copilot_assume_mapped = true
-vim.g.copilot_tab_fallback = "<C-g>"
+-- vim.g.copilot_tab_fallback = "<C-g>"
 
 local map = vim.api.nvim_set_keymap
 
 -- map("i", "<C-p>", "copilot#Accept('<CR>')", { expr = true, script = true, silent = true })
 -- map("i", "<C-m>", "copilot#Accept('<CR>')", { expr = true, script = true, silent = true })
 map("i", "<C-l>", "copilot#Accept('<CR>')", { expr = true, script = true, silent = true })
+map("i", "<C-n>", "copilot#Accept('<CR>')", { expr = true, script = true, silent = true })
+map("i", "<C-v>", "copilot#Accept('<CR>')", { expr = true, script = true, silent = true })
 map("i", "<C-h>", "copilot#Dismiss()", { expr = true, script = true, silent = true })
 map("i", "<C-s>", "copilot#Clear()", { expr = true, script = true, silent = true })
 

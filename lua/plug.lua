@@ -57,12 +57,6 @@ ft = { "rust", "rs" },
     end,
     event = "BufRead",
   }
-  use {"windwp/nvim-ts-autotag",
-    event = "InsertEnter",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end,
-  }
   use { 'nvim-lua/popup.nvim' }
   use {'numToStr/Comment.nvim', config = function()require'Comment'.setup()end}
   use {"antoinemadec/FixCursorHold.nvim"}
@@ -77,7 +71,16 @@ ft = { "rust", "rs" },
   use 'mjlbach/onedark.nvim' -- Theme inspired by Atom
   use {'nvim-lualine/lualine.nvim',
     config = "require'plug.lualine'",--function() require("plug.lualine") end,
+    require = { "SmiteshP/nvim-gps" }
   }
+ --  use({
+ --    'ThePrimeagen/harpoon',
+ --    event = 'BufRead',
+ --    config = function()
+ --      require('harpoon').setup({})
+ --    end,
+	-- })
+
   use {'lukas-reineke/indent-blankline.nvim', config=function()
     require "plug.indent".setup()
   end}
@@ -97,13 +100,25 @@ ft = { "rust", "rs" },
   use { 'VonHeikemen/searchbox.nvim',
     requires = { 'MunifTanjim/nui.nvim' }
   }
-  -- Highlight, edit, and navigate code using a fast incremental parsing library
+  -- use({ 'nanotee/sqls.nvim' })
+  use 'jose-elias-alvarez/null-ls.nvim'
+
   use {'nvim-treesitter/nvim-treesitter', 
     run = ":TsUpdate",
+    before = { "orgmode", "neorg" },
     requires = {
-      'nvim-treesitter/nvim-treesitter-refactor',
-      'nvim-treesitter/nvim-treesitter-textobjects',
-      "romgrk/nvim-treesitter-context",
+			{ 'RRethy/nvim-treesitter-endwise', event = 'InsertEnter' },
+      { 'RRethy/nvim-treesitter-textsubjects' },
+      {'nvim-treesitter/nvim-treesitter-refactor',},
+      { 'nvim-treesitter/nvim-treesitter-textobjects', event = "BufRead"},
+      {"romgrk/nvim-treesitter-context"},
+      {"nvim-treesitter/playground"},
+      {"JoosepAlviste/nvim-ts-context-commentstring"},
+      {"windwp/nvim-ts-autotag", event = "InsertEnter", config = function()
+          require("nvim-ts-autotag").setup()
+        end,
+      }
+      
     }
   }
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -112,14 +127,40 @@ ft = { "rust", "rs" },
   use {'hrsh7th/nvim-cmp'}
   use {'folke/which-key.nvim', config = function()
     require("plug.whichkey")
-end}
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lua'
-  -- use "dmitmel/cmp-cmdline-history"
+  end}
+  -- use({
+  --   'ThePrimeagen/refactoring.nvim',
+  --   requires = { 'nvim-lua/plenary.nvim', 'nvim-treesitter/nvim-treesitter' },
+  --   event = 'BufRead',
+  --   config = function()
+  --     require('refactoring').setup({})
+  --   end,
+  -- })
+  -- use({
+  --   'danymat/neogen',
+  --   after = 'nvim-treesitter',
+  --   config = function()
+  --     require('neogen').setup({
+  --       enabled = true,
+  --       snippet_engine = 'luasnip',
+  --     })
+  --   end,
+		-- })
+
+  use { "hrsh7th/cmp-nvim-lsp-signature-help"}
+  -- use({ 'ray-x/cmp-treesitter', after = 'nvim-cmp' })
+	-- use({ 'lukas-reineke/cmp-rg', after = 'nvim-cmp' })
+	-- use({ 'petertriho/cmp-git', after = 'nvim-cmp' })
+	-- use({ 'zbirenbaum/copilot-cmp', after = { 'copilot.lua', 'nvim-cmp' } })
+  use { 'rafamadriz/friendly-snippets' }
+  use { "hrsh7th/cmp-nvim-lsp-document-symbol"}
+  use {'hrsh7th/cmp-nvim-lsp'}
+  use {'hrsh7th/cmp-nvim-lua'}
+  use {"dmitmel/cmp-cmdline-history"}
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-path' }
   use { 'hrsh7th/cmp-cmdline' }
-  use 'saadparwaiz1/cmp_luasnip'
+  use { 'saadparwaiz1/cmp_luasnip'}
   use { "Saecki/crates.nvim",
       event = { "BufRead Cargo.toml" },
       after = { "nvim-cmp" },
@@ -144,38 +185,56 @@ end}
   }
       -- config = function() require("plugins.nvim-tree") end,
   --   -- REPLs
-  -- use {
-  --   'hkupty/iron.nvim',
-  --   setup = [[vim.g.iron_map_defaults = 0]],
-  --   config = [[require('config.iron')]],
-  --   cmd = { 'IronRepl', 'IronSend', 'IronReplHere' },
-  -- }
-
-  use { "karb94/neoscroll.nvim", config = "require'plug.neoscroll'"}
+  use {
+    'hkupty/iron.nvim',
+    setup = function()
+      vim.g.iron_map_defaults = 0
+    end,
+    config = [[require('config.iron')]],
+    cmd = { 'IronRepl', 'IronSend', 'IronReplHere' },
+  }
+  use {
+    "karb94/neoscroll.nvim", 
+    config = function()
+      require'plug.neoscroll'
+    end,
+  }
   use {'akinsho/bufferline.nvim',
     config = function() require("bufferline").setup({}) end,
     requires = 'kyazdani42/nvim-web-devicons'
   }
+  use({
+    'mfussenegger/nvim-dap',
+    requires = {'rcarriga/nvim-dap-ui', 'theHamsta/nvim-dap-virtual-text',},
+    event = 'bufreadpre',
+    config = function()
+      require('plugins.dap')
+    end,
+  })
+  -- use 'nvim-neo-tree/neo-tree.nvim',
+  use({
+    'Pocco81/DAPInstall.nvim',
+    event = 'BufReadPre',
+  })
   use { "jose-elias-alvarez/nvim-lsp-ts-utils"}
   use { "alaviss/nim.nvim", ft = "nim"}
   use {"akinsho/flutter-tools.nvim", ft = "dart", config =
       function() require("flutter-tools").setup{} end}
   use {'ziglang/zig.vim', ft="zig"}
   use { "peterhoeg/vim-qml", ft = { "qml" }}
-  use { "hrsh7th/cmp-nvim-lsp-signature-help", after = "nvim-cmp"}
-  use { 'rafamadriz/friendly-snippets' }
-  use { "hrsh7th/cmp-nvim-lsp-document-symbol",after = "nvim-cmp"}
-  use { "SmiteshP/nvim-gps",config = function()
-    require("plug.gps")
-  end}
+  use { "SmiteshP/nvim-gps",
+    config = function() require("plug.gps") end,
+  }
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use {"folke/trouble.nvim",
-      requires = "kyazdani42/nvim-web-devicons",
-      config = function()
-          require("trouble").setup {}
-      end
+    requires = "kyazdani42/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {}
+    end
   }
-  use {'vimwiki/vimwiki', branch = "dev", config = function()
+  use {'vimwiki/vimwiki', 
+    branch = "dev", 
+    config = function()
       require("plug.vimwiki")
   end}
   use {"ahmedkhalf/project.nvim", config = function()
@@ -184,7 +243,10 @@ end}
   use {"ggandor/lightspeed.nvim",event = "BufRead"}
   use {"kosayoda/nvim-lightbulb", config = function() end,event = "BufRead"}
   use {"norcalli/nvim-colorizer.lua", config = function() require("plug.colorizer") end}
-  use { "github/copilot.vim", config = function() require("plug.copilot") end,}
+  use { 
+    "github/copilot.vim", 
+    config = function() require("plug.copilot") end,
+  }
   use{'j-hui/fidget.nvim',config=function()
       require("fidget").setup()
   end}
@@ -218,7 +280,16 @@ end}
   }
 
     -- use { 'rcarriga/vim-ultest', requires={'vim-test/vim-test'}, run=":UpdateRemotePlugins"}
-    -- use {'Olical/conjure', }
+  use {'Olical/conjure', }
+  -- use {
+  --     "nvim-neorg/neorg",
+  --     tag = "latest",
+  --     -- ft = "norg",
+  --     -- after = {"nvim-treesitter", "telescope.nvim"},
+  --     config = function()
+  --       require("plug.neorg").setup()
+  --   end
+  -- }
   use {'purescript-contrib/purescript-vim', ft = "purescript"}
   -- use {
   --   "nvim-telescope/telescope-project.nvim",
@@ -226,12 +297,6 @@ end}
   --   setup = function()
   --     vim.cmd [[packadd telescope.nvim]]
   --   end,
-  -- }
-  -- use { "nvim-neorg/neorg",
-  --   ft = "norg",
-  --   after = "nvim-treesitter",
-  --   tag = "latest",
-  --   config = function() require("user.plug.neorg").setup() end
   -- }
   -- use {
   --   "ipod825/igit.nvim",
@@ -264,7 +329,9 @@ end}
   end}
   use { "~/nv/exi.lua", config = function()
   end}
-  use { "kevinhwang91/nvim-hlslens"}
+  use { "kevinhwang91/nvim-hlslens", config = function()
+		require('hlslens').setup()
+  end}
   -- use {"nvim-pack/nvim-spectre"}
   use { "jvgrootveld/telescope-zoxide" }
   -- use 'junegunn/vim-easy-align'
@@ -292,3 +359,27 @@ end,
 
   }
 })
+
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_gzip = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwFileHandlers = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
+
+-- DISABLE REMOTE PLUGINS
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
