@@ -168,7 +168,7 @@ ft = { "rust", "rs" },
   }
   use { "tpope/vim-surround", keys = { "c", "d", "y" } }
   use { "kevinhwang91/nvim-bqf", ft = 'qf', config = function()
-      -- require("plug.bqf")
+      require("plug.bqf")
   end}
   -- use "tpope/vim-dadbod"
   -- use {"kristijanhusak/vim-dadbod-completion", event = "InsertCharPre"}
@@ -258,6 +258,8 @@ ft = { "rust", "rs" },
       require("spectre").setup()
     end,
   }
+  -- use {'nvim-telescope/telescope-ui-select.nvim' }
+
   use {
     "nathom/filetype.nvim",
     config = function()
@@ -272,6 +274,9 @@ ft = { "rust", "rs" },
     event = "BufReadPost",
     -- disable = lvim.builtin.tag_provider ~= "symbols-outline",
   }
+  use {"stevearc/dressing.nvim", config = function()
+
+  end}
   use { "nvim-lua/lsp_extensions.nvim" }
   use { "weilbith/nvim-code-action-menu",
     cmd = 'CodeActionMenu',

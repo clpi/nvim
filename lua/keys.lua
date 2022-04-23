@@ -10,7 +10,7 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set('n', ';', ":", {})
 
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers)
+-- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers)
 vim.keymap.set('n', '<leader>sf', function()
 require('telescope.builtin').find_files { previewer = false }
 end)

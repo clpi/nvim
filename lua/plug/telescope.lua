@@ -1,5 +1,7 @@
 require('telescope').load_extension 'fzf'
 require('telescope').load_extension 'zoxide'
+require('telescope').load_extension 'wiki' 
+
 
 -- Telescope
 require('telescope').setup {
