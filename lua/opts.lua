@@ -137,3 +137,5 @@ vim.o.completeopt = 'menu,menuone,noselect,preview'
 
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetypes = 0
+
+vim.g.zig_fmt_autosave = 0

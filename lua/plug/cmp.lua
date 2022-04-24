@@ -10,12 +10,37 @@ local util = require "util"
 --     return vim_item
 --   end,
 -- })
+local confirm = cmp.mapping.confirm {
+  behavior = cmp.ConfirmBehavior.Replace,
+  select = false,
+}
 
+local next = function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  elseif luasnip.expand_or_jumpable() then
+    luasnip.expand_or_jump()
+  else
+    fallback()
+  end
+end
+local prev = function(fallback)
+  if cmp.visible() then
+    cmp.select_prev_item()
+  elseif luasnip.jumpable(-1) then
+    luasnip.jump(-1)
+  else
+    fallback()
+  end
+end
 local miscicons_fmt = function(entry, vim_item)
   local typeicon = util.kind_icons[vim_item.kind]
   local typetxt = string.sub(vim_item.kind, 0, 2)
   vim_item.kind = string.format('%s %s',typeicon, typetxt)
   -- vim_item.kind = typeicon
+  -- local srcicon = util.src_icons[entry.source.name]
+  -- local srctxt = string.sub(entry.kind.name, 0, 2)
+  -- vim_item.menu = string.format('%s %s', srcicon, srctxt)
   vim_item.menu = util.src_icons[entry.source.name]
   -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
   return vim_item
@@ -27,6 +52,28 @@ cmp.setup {
       luasnip.lsp_expand(args.body)
     end,
   },
+  -- completion = {
+  --   autocomplete = true,
+  -- },
+  -- matching = {
+  --   disallow_fuzzy_matching = false,
+  --   disallow_partial_matching = false,
+  --   disalow_prefix_matching = false,
+  -- },
+  -- completion = {
+  -- },
+  -- sorting = {
+  --   comparators = {
+  --     cmp.config.compare.offset,
+  --     cmp.config.compare.exact,
+  --     cmp.config.compare.sort_text,
+  --     cmp.config.compare.score,
+  --     cmp.config.compare.recently_used,
+  --     cmp.config.compare.kind,
+  --     cmp.config.compare.length,
+  --     cmp.config.compare.order,
+  --   }
+  -- },
   formatting = {
     fields = {'kind', 'abbr','menu'},
     format = miscicons_fmt,
@@ -40,45 +87,29 @@ cmp.setup {
     ['<C-b>'] = cmp.mapping.scroll_docs(-3),
     ['<C-f>'] = cmp.mapping.scroll_docs(3),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false,
-    },
-    -- ['<Tab>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   else
-    --     fallback()
-    --   end
-    -- end, { 'i', 's' }),
-    -- ['<S-Tab>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_prev_item()
-    --   elseif luasnip.jumpable(-1) then
-    --     luasnip.jump(-1)
-    --   else
-    --     fallback()
-    --   end
-    -- end, { 'i', 's' }),
+    ['<CR>'] = confirm,
+    ['<TAB>'] = cmp.mapping(next, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(prev, { 'i', 's'}),
+    ['<C-j>'] = cmp.mapping(next, { 'i', 's' }),
+    ['<C-k>'] = cmp.mapping(prev, { 'i', 's'})
+    -- ['<C-c>'] = cmp.mapping.close(),
+    -- ['<C-p>'] = cmp.mapping.complete_common_string(),
   }),
-  completion = {
-  },
   experimental = { ghost_text = false },
+  enabled = true,
+  preselect = cmp.PreselectMode.None,
   sources = {
-    { name = 'nvim_lsp' },
-    { name = 'nvim_lua' },
-    { name = 'crates' },
-    { name = 'copilot' },
-    { name = 'nvim_lsp_signature_help' },
-    { name = 'path' },
-    { name = "vimwiki-tags" },
-    { name = 'neorg' },
-    { name = 'orgmode' },
-    { name = 'nvim_lsp_document_symbol' },
-    { name = "luasnip", group_index = 4, option = { use_show_condition = false }},
-    { name = 'buffer' },
+    { name = 'nvim_lsp', group_index = 1 },
+    { name = 'nvim_lsp_signature_help',group_index=2},
+    { name = 'nvim_lua' , group_index=2},
+    { name = 'crates', group_index=2 },
+    { name = 'path', group_index=3 },
+    { name = 'copilot', group_index=4 },
+    { name = 'neorg', group_index = 5 },
+    { name = 'orgmode', group_index = 5 },
+    { name = "luasnip", group_index = 6, option = { use_show_condition = false }},
+    { name = 'nvim_lsp_document_symbol', group_index = 7 },
+    { name = 'buffer', group_index = 7 },
   },
 }
 
@@ -108,11 +139,16 @@ cmp.setup.filetype({
   "vimwiki" }, 
 {
   sources = {
-    { name = "vimwiki-tags"},
+    {
+      name = "vimwiki_tags",
+      trigger_characters = {":", "@", "#"},
+      group_index=1
+    },
     { name = "path"},
     { name = "luasnip"},
     { name = "buffer"},
     { name = 'copilot' },
+    { name = 'nvim_lsp_document_symbol',group_index=2},
   },
 })
 

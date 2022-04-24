@@ -959,5 +959,7 @@ require("keys.spc")
 
 vim.keymap.set({ "n", "i", "v"}, "<C-f>", "<C-u>", { silent = true, nowait = true })
 vim.keymap.set({ "n", "i", "v"}, "<C-d>", "<C-d>", { silent = true, nowait = true })
+vim.keymap.set({"n", "v"}, "<C-f><C-p>", "<CMD>Telescope project<CR>", {silent = true, noremap = true})
+  -- grequire("telescope").extensions.project.project(), {silent = true, noremap = true})
 -- require("keys.c-c")
 vim.keymap.set({"n", "i", "v"}, "<C-\\>", "<CMD>Copilot panel<CR>", df)

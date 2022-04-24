@@ -24,7 +24,7 @@ function source.is_available()
 end
 
 function source.get_debug_name()
-    return "vimwiki-tags"
+    return "vimwiki_tags"
 end
 
 function source.get_trigger_characters()

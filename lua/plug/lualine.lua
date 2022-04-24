@@ -1,20 +1,12 @@
-local ok, gps = pcall(require, "nvim-gps")
-local gpsll = {}
-if ok then
-  gpsll = {
-    gps.get_location,
-    cond = gps.is_available,
-    left_padding = 1
-  }
-end
+local ok_gps, gps = pcall(require, "nvim-gps")
 
-      local d = { -- NOTE: diagnostics
-        "diagnostics",
-        sources = { "nvim" },
-        sections={"error", "warn", "info", "hint"},
-        symbols = { error = " ", warn = " ", info = " ", hint = " " },
-      }
-local function search_result()
+local gpsll = {
+  gps.get_location,
+  cond = gps.is_available,
+  left_padding = 1
+}
+
+local search_result = function()
   if vim.v.hlsearch == 0 then
     return ''
   end
@@ -25,6 +17,7 @@ local function search_result()
   local searchcount = vim.fn.searchcount { maxcount = 9999 }
   return last_search .. '(' .. searchcount.current .. '/' .. searchcount.total .. ')'
 end
+
 local conditions = {
   buffer_not_empty = function()
     return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
@@ -116,6 +109,59 @@ local function modified()
   end
   return ''
 end
+local filen = {
+  "filename",
+    symbols = {
+        modified = '°',
+        readonly = ' ',
+        unnamed = '•',
+    },
+    shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
+    colored=true,
+    path = 0,
+    padding ={ right = 0},
+    file_status = true,
+    cond = conditions.buffer_not_empty,
+}
+local git =  {
+  'branch', -- icon = ' ',
+  icons_enabled = true,
+  check_git_workspace = true,
+  cond = conditions.check_git_workspace,
+  -- color = { fg = colors.green, bg = colors.bg },
+}
+
+local prog = {
+    'progress',
+    icon = '' ,
+    icon_enabled = true,
+    always_visible = false,
+    cond = conditions.only_wide,
+}
+
+local loc = {
+    "location",
+    icon = "",
+    icons_enabled=true,
+    cond = conditions.buffer_not_empty,
+    always_visible = false,
+    -- padding={left=0, right=1}
+}
+local sep= {
+  function() return '%=' end,
+  colored = false,
+  always_visible = false,
+}
+
+local dir ={
+    function() return " " .. vim.fn.expand("%:p:~"):gsub("/", " › ") end,
+    shorting_target = 20,
+    always_visible = false,
+    cond = conditions.only_wide,
+    --     conditions.hide_in_width() & 
+    --     conditions.buffer_not_empty 
+    -- end,
+}
 local lsp = {
   function()
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
@@ -135,13 +181,49 @@ local lsp = {
   colored = true,
   -- color = { fg = "#556575" }, -- gui = "italic"
 }
-local fn = {
-        'filename', 
-        file_status = true,
-        path = 0,
-        -- separator = { left = '' }, 
-        right_padding = 0
-      }
+
+local localt =  { 'location',
+    icons_enabled = true,
+    colored = true,
+    padding={left=0, right=0},
+    icon = ""
+}
+local diag={
+    'diagnostics',
+    sections = { 'error', 'warn', 'info', 'hint' },
+    sources = { 'nvim_lsp',  'nvim_diagnostic' },
+    symbols = { error = '  ', warn = '  ', info = '  ' },
+    -- symbols = { error = "•", warn = "•", info = "•" },
+    update_in_insert = false,
+    cond = conditions.buffer_not_empty,
+    colored=true,
+    -- always_visible = true,   -- Show diagnostics even if there are none.
+      -- padding = { left = 1, right = 1}
+
+}
+local diff ={
+  'diff',
+  -- symbols = { added = "•", modified = "•", removed = "•" },
+	-- symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
+  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+      -- symbols = { added = "", modified = "", removed = "" },
+  -- separator = { left = '', right = ''},
+  colored=true,
+  cond = conditions.buffer_not_empty,
+  always_visible = true,
+}
+local ff = {
+  'fileformat',
+    icon_enabled = true,
+    cond = conditions.buffer_not_empty,
+    colored=false,
+}
+local filetype = {
+  'filetype',
+  cond = conditions.buffer_not_empty,
+  icon_enabled = true,
+  colored = false,
+}
 
 local cfg =  {
   active = true,
@@ -152,30 +234,18 @@ local cfg =  {
 
   },
   sections = {
-    lualine_a = {
-      fn,
-    },
-    lualine_b = { 
-            'fileformat',
-errors, warns, info, hint, 
-    },
-    lualine_c = { -- 'fileformat',
-      'branch' ,
-      gpsll,
-    },
-    lualine_x = {
-      lsp,
-      'location',
-      -- ts,
-    },
-    lualine_y = { 'filetype', 'branch', 'diff'},
+    lualine_a = { ff, filen },
+    lualine_b = {  ff, errors, warns, info, hint },
+    lualine_c = { gpsll, sep},
+    lualine_x = { dir, loc, prog, }, --ts
+    lualine_y = { filetype, git, diff},
     lualine_z = {
       'progress'
     },
         },
   inactive_sections = {
-    lualine_a = {fn},
-    lualine_b = {},
+    lualine_a = {filen},
+    lualine_b = {  },
     lualine_c = {},
     lualine_x = {},
     lualine_y = {},

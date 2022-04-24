@@ -61,13 +61,34 @@ ft = { "rust", "rs" },
   use {'numToStr/Comment.nvim', config = function()require'Comment'.setup()end}
   use {"antoinemadec/FixCursorHold.nvim"}
   use { 'nvim-telescope/telescope.nvim',
-    requires = { 'nvim-lua/plenary.nvim' },
+    requires = { 
+      {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-fzf-native.nvim', run = "make"},
+      { "nvim-telescope/telescope-project.nvim", },
+      { "jvgrootveld/telescope-zoxide" },
+      { "nvim-telescope/telescope-github.nvim"},
+      -- { "LinArcX/telescope-command-palette.nvim" }
+      -- {'dhruvmanila/telescope-bookmarks.nvim', requires = 'tami5/sqlite.lua'},
+      -- { 'nvim-telescope/telescope-symbols.nvim' },
+      -- { "nvim-neorg/neorg-telescope" }
+      -- {'nvim-telescope/telescope-ui-select.nvim' }
+      -- {"nvim-telescope/telescope-file-browser.nvim", opt = true },
+    },
     config = function() require("plug.telescope") end,
   }
-  -- { "nvim-telescope/telescope-github.nvim", opt = true },
-  -- {"nvim-telescope/telescope-file-browser.nvim", opt = true },
+  -- use {
+  --   'pwntester/octo.nvim',
+  --   requires = {
+  --     'nvim-lua/plenary.nvim',
+  --     'nvim-telescope/telescope.nvim',
+  --     'kyazdani42/nvim-web-devicons',
+  --   },
+  --   config = function ()
+  --     require"octo".setup()
+  --   end
+  -- }
+  -- use {"gfeiyou/command-center.nvim", requires = "telescope.nvim"}
   use { 'b0o/schemastore.nvim'}
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use 'mjlbach/onedark.nvim' -- Theme inspired by Atom
   use {'nvim-lualine/lualine.nvim',
     config = "require'plug.lualine'",--function() require("plug.lualine") end,
@@ -123,7 +144,9 @@ ft = { "rust", "rs" },
   }
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
+  use {'williamboman/nvim-lsp-installer', config = function()
+    require("plug.lspinstall")
+  end}
   use {'hrsh7th/nvim-cmp'}
   use {'folke/which-key.nvim', config = function()
     require("plug.whichkey")
@@ -258,7 +281,6 @@ ft = { "rust", "rs" },
       require("spectre").setup()
     end,
   }
-  -- use {'nvim-telescope/telescope-ui-select.nvim' }
 
   use {
     "nathom/filetype.nvim",
@@ -297,7 +319,6 @@ ft = { "rust", "rs" },
   -- }
   use {'purescript-contrib/purescript-vim', ft = "purescript"}
   -- use {
-  --   "nvim-telescope/telescope-project.nvim",
   --   event = "BufWinEnter",
   --   setup = function()
   --     vim.cmd [[packadd telescope.nvim]]
@@ -338,7 +359,6 @@ ft = { "rust", "rs" },
 		require('hlslens').setup()
   end}
   -- use {"nvim-pack/nvim-spectre"}
-  use { "jvgrootveld/telescope-zoxide" }
   -- use 'junegunn/vim-easy-align'
   -- use { 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } }
 

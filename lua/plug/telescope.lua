@@ -1,18 +1,86 @@
 require('telescope').load_extension 'fzf'
 require('telescope').load_extension 'zoxide'
+require('telescope').load_extension 'gh'
+require('telescope').load_extension 'project'
 require('telescope').load_extension 'wiki' 
-
+-- require("telescope").load_extension('command_center')
+local action_layout = require("telescope.actions.layout")
+-- local actions = require("telescope.actions")
+-- local action_state = require "telescope.actions.state"
 
 -- Telescope
 require('telescope').setup {
-    defaults = {
+  defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--trim" -- add this value
+    },
     mappings = {
-        i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+      i = {
+        ["<F1>"] = action_layout.toggle_preview
+        -- ["<ESC>"] = actions.close,
+        -- ["<C-u>"] = false, -- to clear prompt instead of scroll down
+      },
+      n = {
+        ["<F1>"] = action_layout.toggle_preview
+      }
+
+    },
+  },
+  pickers = {
+    find_files = {
+      find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+      mappings = {
+        n = {
+          ["cd"] = function(prompt_bufnr)
+              local selection = require("telescope.actions.state").get_selected_entry()
+              local dir = vim.fn.fnamemodify(selection.path, ":p:h")
+              require("telescope.actions").close(prompt_bufnr)
+              -- Depending on what you want put `cd`, `lcd`, `tcd`
+              vim.cmd(string.format("silent lcd %s", dir))
+          end,
         },
+      },
     },
+
+  },
+  extensions = {
+    gh = {
+
     },
+    fzf = {
+
+    },
+    zoxide = {
+
+    },
+    project = {
+      base_dirs = {
+        '~/dev',
+        {'~/dv'},
+        {'~/mk/p', max_depth = 4},
+      {path = '~/dev/src4'},
+      {path = '~/dev/src5', max_depth = 2},
+    },
+    hidden_files = true -- default: false
+
+    },
+    wiki = {
+
+    },
+  },
+  mappings = {
+      i = {
+      ['<C-u>'] = false,
+      ['<C-d>'] = false,
+      },
+  },
 }
 
 -- -- lvim.builtin.telescope.extensions = {

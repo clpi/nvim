@@ -1,27 +1,84 @@
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  require('lsp_extensions.workspace.diagnostic').handler, {
-    float = {
-        source = "always",
-    },
-    severity_sort = true,
-    virtual_text = {
-      prefix = "»",
-      spacing = 2,
-    },
-    signs = {
-      active = true,
-      values = {
-        { name = "DiagnosticSignError", text = "" },
-        { name = "DiagnosticSignWarn", text = "" },
-        { name = "DiagnosticSignHint", text = "" },
-        { name = "DiagnosticSignInfo", text = "" },
-      }
-    },
-    update_in_insert = true,
-    underline = true,
-  }
-)
-local on_attach = function(client, bufnr)
+local M = {}
+
+local lspx_ok, lspx = pcall(require, "lsp_extensions")
+
+M.lsp_inlay_hints = function()
+  if lspx_ok then
+    require'lsp_extensions'.inlay_hints{
+      highlight = "Comment",
+      prefix = " > ",
+      aligned = false,
+      only_current_line = false,
+      source = "always", 
+      enabled = { "ChainingHint" }
+    }
+  end
+end
+
+M.lsp_diagnostics_ext = function()
+  if lspx_ok then
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      require('lsp_extensions.workspace.diagnostic').handler, {
+        float = {
+            source = "always",
+        },
+        severity_sort = true,
+        virtual_text = {
+          prefix = "»",
+          spacing = 2,
+        },
+        signs = {
+          active = true,
+          values = {
+            { name = "DiagnosticSignError", text = "" },
+            { name = "DiagnosticSignWarn", text = "" },
+            { name = "DiagnosticSignHint", text = "" },
+            { name = "DiagnosticSignInfo", text = "" },
+          }
+        },
+        update_in_insert = true,
+        underline = true,
+      })
+  end
+end
+
+M.define_signs = function()
+  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+  -- local signs = { Error = "•", Warn = "•", Hint = "•" , Info = "•" }
+  for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
+  vim.fn.sign_define("DiagnosticSignError", {
+      text = " ",
+      texthl = "DiagnosticSignError",
+      numhl = "DiagnosticSignError"
+  })
+  vim.fn.sign_define("DiagnosticSignWarn", {
+      text = " ",
+      texthl = "DiagnosticSignWarn",
+      numhl = "DiagnosticSignWarn"
+  })
+  vim.fn.sign_define("DiagnosticSignInfo", {
+      text = " ",
+      texthl = "DiagnosticSignInfo",
+      numhl = "DiagnosticSignInfo"
+  })
+  vim.fn.sign_define("DiagnosticSignHint", {
+      text = " ",
+      texthl = "DiagnosticSignHint",
+      numhl = "DiagnosticSignHint"
+  })
+end
+
+M.autofloat_diagnostics = function()
+    vim.o.updatetime = 150
+    vim.cmd [[
+      autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
+    ]]
+end
+
+M.on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
   local op = { noremap = true, silent = true, }
   vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
@@ -75,32 +132,41 @@ local on_attach = function(client, bufnr)
 end
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-local lsp_installer = require("nvim-lsp-installer")
+M.capabilities = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+  return capabilities
+end
 
-lsp_installer.settings({
-  ui = {
-    icons = {
-      server_installed = "✓",
-      server_pending = "➜",
-      server_uninstalled = "✗"
-    }
-  }
-})
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
-  if server.name == "sumneko_lua" then
-    server:setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = require("lsp.srv.lua").settings,
-    })
-    return
-  elseif server.name == "rust_analyzer" then
+M.lspinstaller_enable = function()
+  local ok, lsp_installer = pcall(require, "nvim-lsp-installer")
+  if ok then
+    lsp_installer.on_server_ready(function(server)
+      local opts = {
+        capabilities = M.capabilities(),
+        on_attach = M.on_attach,
+      }
+      if server.name == "sumneko_lua" then
+        server:setup({
+          capabilities = M.capabilities(),
+          on_attach = M.on_attach,
+          settings = require("lsp.srv.lua").settings,
+        })
+        return
+      elseif server.name == "rust_analyzer" then
+        -- setup rust_tools
+      elseif server.name == "pyright" then
+
+      end
+      server:setup(opts)
+    end)
   end
-  server:setup(opts)
-end)
+end
+
+M.setup = function()
+  M.define_signs()
+  -- M.lsp_inlay_hints()
+  M.lspinstaller_enable()
+end
+
+return M
