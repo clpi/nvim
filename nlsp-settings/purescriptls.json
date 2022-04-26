@@ -1,0 +1,6 @@
+{
+  "purescript.addNpmPath": false,
+  "purescript.fastRebuild": true,
+  "purescript.preludeModule": "Prelude",
+  "purescript.autoStartPscIde": true
+}
