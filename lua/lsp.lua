@@ -2,6 +2,10 @@ local M = {}
 
 local lspx_ok, lspx = pcall(require, "lsp_extensions")
 
+M.autocmds = function()
+  vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]]
+end
+
 M.lsp_inlay_hints = function()
   if lspx_ok then
     require'lsp_extensions'.inlay_hints{
@@ -140,6 +144,7 @@ end
 
 M.lspinstaller_enable = function()
   local ok, lsp_installer = pcall(require, "nvim-lsp-installer")
+  -- local ok, lsp_cfg = pcall(require, "nvim-lsp-config")
   if ok then
     lsp_installer.on_server_ready(function(server)
       local opts = {

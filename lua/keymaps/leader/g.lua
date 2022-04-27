@@ -5,6 +5,7 @@ local M = {}
 local ins = require("utils").inserts
 
 M.n = { maps = { name = "+git",
+  ["."] = { "<CMD>cd %:p:h<CR>", "cd to buf parent"},
     a = { "<ESC>:TermExec cmd='git add --a'<CR>", 'add all'},
     c = { "<ESC>:TermExec cmd='git commit -m '<LEFT>", 'commit'},
     b = { "<ESC>:TermExec cmd='git checkout -b '<LEFT>", 'branch'},

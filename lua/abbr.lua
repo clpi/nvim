@@ -5,6 +5,11 @@ M.abbr = function(mode, abb, res)
 end
 
 M.set_abbrs = function()
+  M.abbr("i", "cofnig", "config")
+  M.abbr("i", "zhs", "zsh")
+  M.abbr("i", "~?", "~/")
+  M.abbr("i", "fnct", "function")
+  M.abbr("i", "e,", "end")
   M.abbr("c", "fz", "FzfLua ")
   M.abbr("c", "fzf", "FzfLua files")
   M.abbr("c", "fzf", "FzfLua files")

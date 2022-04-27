@@ -34,7 +34,7 @@ M.n = { maps = {
 	  t = { ":TermToggle<CR>", "term"},
 	  g = { ":Telescope live_grep<CR>", "grep"},
   },
-  w = require("keymaps.lleader.wiki").n.maps,
+  -- w = require("keymaps.lleader.wiki").n.maps,
   c = { name = "+code"
 
   },

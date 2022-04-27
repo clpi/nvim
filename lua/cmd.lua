@@ -1,3 +1,7 @@
+local command = vim.api.nvim_create_user_command
+
+
+
 local ucmd = function(name, args, exec)
     vim.cmd("command! "  .. args .. " " .. name .. " exe " .. exec .. "")
 end

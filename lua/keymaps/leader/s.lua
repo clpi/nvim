@@ -6,6 +6,8 @@ M.n = { maps = { name = "+search",
     ["<cr>"] = {":SearchBoxIncSearch<CR>", "search box"},
     -- TODO make search/replace for word under cursor
     ["<space>"] = { ":s/<c-r>///g<Left><Left>", "repl cursor word"},
+    w = { "<ESC>:!grep -r -l  * \\| xargs sed -i -e 's///g'<LEFT><LEFT><LEFT>", "workspace s/r"},
+    W = { "<ESC>:!grep -r -l  * \\| xargs sed -i -e 's///g'<LEFT><LEFT><LEFT>", "workspace s/r"},
     ["-"] = { "<ESC>:split<CR>", "splith"},
     ["_"] = { "<ESC>:vsplit<CR>", "splitv"},
     [","] = {"<ESC>:SearchBoxSimple<CR>", "Simple"},

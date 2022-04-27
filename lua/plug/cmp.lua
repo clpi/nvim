@@ -74,6 +74,11 @@ cmp.setup {
   --     cmp.config.compare.order,
   --   }
   -- },
+  matching = {
+    disallow_fuzzy_matching = false,
+    disallow_partial_matching = false,
+    disallow_prefix_unmatching = true,
+  },
   formatting = {
     fields = {'kind', 'abbr','menu'},
     format = miscicons_fmt,

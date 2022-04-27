@@ -3,32 +3,39 @@ local M = {}
 M.install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
 M.preinit = function()
-
-  -- local plug = require "plug"
-
-  if vim.fn.empty(vim.fn.glob(M.install_path)) > 0 then
+  local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. M.install_path)
   end
-  vim.cmd [[
-    augroup packer_user_config
-      autocmd!
-      autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-  ]]
-
   local status_ok, packer = pcall(require, "packer")
   if not status_ok then return end
 
-  local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-  vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | PackerCompile', group = packer_group, pattern = 'init.lua' })
+  vim.cmd[[packadd packer.nvim]]
 
+  local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+  vim.api.nvim_create_autocmd('BufWritePost',
+    {
+      command = 'source plug.lua | PackerCompile',
+      group = packer_group, pattern = 'init.lua'
+    })
   return packer
 end
 
-M.init = function()
-  local packer = M.preinit()
-  packer.init {
-    compile_path = M.install_path,
+M.config = {
+  display = {
+    open_fn = function()
+      return require("packer.util").float {
+        border = "single"
+      }
+    end
+  }
+}
+
+M.init = {
+    ensure_dependencies   = true, 
+    -- compile_path = vim.fn.stdpath("config") .. "plugin/packer_compiled.lua",
+    plugin_package = 'packer', -- The default package for plugins
+    compile_path = vim.fn.stdpath('config') .. '/plugin' .. '/packer_compiled.lua',
     max_jobs = 8,
     compile_on_sync = true,
     display = {
@@ -45,16 +52,12 @@ M.init = function()
       enable = true,
     },
   }
-end
 
 -- M.setup = function(packer)
 --   packer.init {
---     ensure_dependencies   = true, 
 --     snapshot = nil,
 --     snapshot_path = join_paths(stdpath 'cache', 'packer.nvim'),
 --     package_root   = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
---     compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin', 'packer_compiled.lua'),
---     plugin_package = 'packer', -- The default package for plugins
 --     max_jobs = nil, -- Limit the number of simultaneous jobs. nil means no limit
 --     auto_clean = true, -- During sync(), remove unused plugins
 --     compile_on_sync = true, -- During sync(), run packer.compile()

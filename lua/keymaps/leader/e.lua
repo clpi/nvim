@@ -6,7 +6,7 @@
 local M = {}
 
 local lre = function(s) return 
-    require("keymaps.leader.edit."..s).n.maps
+    require("keymaps.leader.e."..s).n.maps
 end
 local ed = function(rpath, name) return { ":e "..rpath.."<CR>", name }end
 
@@ -111,7 +111,7 @@ M.n = { maps = { name = "+edit",
     -- ["^"] = lre("wiki"),
     -- ["&"] = lre("wiki"),
     -- ["*"] = lre("wiki"),
-    z = require("keymaps.leader.edit.zsh"),
+    z = require("keymaps.leader.e.z"),
     L = blogs,
     D = docs,
     P = papers,

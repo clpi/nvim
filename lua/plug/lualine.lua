@@ -1,4 +1,5 @@
 local ok_gps, gps = pcall(require, "nvim-gps")
+if not ok_gps then return end
 
 local gpsll = {
   gps.get_location,
@@ -101,14 +102,6 @@ local ts={ -- NOTE: Treesitter
         symbols = { error = " ", warn = " ", info = " ", hint = " " },
         -- diagnostics_color = { error = { bg = colors.red, fg = colors.white } },
       }
-local function modified()
-  if vim.bo.modified then
-    return '+'
-  elseif vim.bo.modifiable == false or vim.bo.readonly == true then
-    return '-'
-  end
-  return ''
-end
 local filen = {
   "filename",
     symbols = {
@@ -116,6 +109,7 @@ local filen = {
         readonly = ' ',
         unnamed = '•',
     },
+    icons_enabled = true,
     shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
     colored=true,
     path = 0,
@@ -218,10 +212,15 @@ local ff = {
     cond = conditions.buffer_not_empty,
     colored=false,
 }
-local filetype = {
+local ft_icon = {
   'filetype',
-  cond = conditions.buffer_not_empty,
-  icon_enabled = true,
+  icon_only = true,
+  colored = false,
+}
+local ft_name = {
+  'filetype',
+  icon_only = false,
+  icons_enabled = false,
   colored = false,
 }
 
@@ -229,19 +228,23 @@ local cfg =  {
   active = true,
   options = {
     theme = "cayu",
+    globalstatus=true,
+    icons_enabled = true,
+    always_divide_middle=true,
+    disabled_filetypes = {
+      'NvimTree', 'ToggleTerm',
+    },
     component_separators = { left = '', right = '' },
     section_separators = { left = '', right = '' },
 
   },
   sections = {
-    lualine_a = { ff, filen },
-    lualine_b = {  ff, errors, warns, info, hint },
+    lualine_a = { ft_icon, filen },
+    lualine_b = {   errors, warns, info, hint },
     lualine_c = { gpsll, sep},
-    lualine_x = { dir, loc, prog, }, --ts
-    lualine_y = { filetype, git, diff},
-    lualine_z = {
-      'progress'
-    },
+    lualine_x = { loc, prog, }, --ts
+    lualine_y = { git,  diff},
+    lualine_z = { ft_name },
         },
   inactive_sections = {
     lualine_a = {filen},
