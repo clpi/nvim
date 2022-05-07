@@ -40,6 +40,7 @@ use {"simrat39/rust-tools.nvim",
 end,
 ft = { "rust", "rs" },
 }
+
   use { "vim-crystal/vim-crystal", ft = { "crystal" } }
   use 'rcarriga/nvim-notify'
   use { "andymass/vim-matchup",
@@ -164,8 +165,14 @@ ft = { "rust", "rs" },
   use {'williamboman/nvim-lsp-installer', config = function()
     require("plug.lspinstall")
   end}
+  -- use {'jbyuki/nabla.nvim', config = function()
+    -- vim.cmd[[nnoremap <leader>p :lua require("nabla").popup()<CR> " Customize with popup({border = ...})  : `single` (default), `double`, `rounded`]]
+  -- end}
   use {'hrsh7th/nvim-cmp',
     requires = {
+      -- { "aspeddro/cmp-pandoc.nvim", requires = {
+      --   "nvim-lua/plenary.nvim", 
+      -- }},
       { "hrsh7th/cmp-nvim-lsp-signature-help"},
       { "hrsh7th/cmp-nvim-lsp-document-symbol"},
       {'hrsh7th/cmp-nvim-lsp'},
