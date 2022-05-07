@@ -279,6 +279,7 @@ au_enter(vwgroup, "*.md", function()
     nmap ,wt <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
     nmap ,wI <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
     nmap ,wT <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wgr <ESC>:silent! edit ~/mk/accounts/index.md<CR><CR>
   ]]
   vim.cmd[[ nmap ,wi]]
   nmap(",w,", "<Plug>VimwikiToggleListItem", default)

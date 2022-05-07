@@ -35,13 +35,13 @@ local prev = function(fallback)
 end
 local miscicons_fmt = function(entry, vim_item)
   local typeicon = util.kind_icons[vim_item.kind]
-  local typetxt = string.sub(vim_item.kind, 0, 2)
+  local typetxt = string.sub(vim_item.kind, 0, 3)
   vim_item.kind = string.format('%s %s',typeicon, typetxt)
   -- vim_item.kind = typeicon
   -- local srcicon = util.src_icons[entry.source.name]
   -- local srctxt = string.sub(entry.kind.name, 0, 2)
   -- vim_item.menu = string.format('%s %s', srcicon, srctxt)
-  vim_item.menu = util.src_icons[entry.source.name]
+  vim_item.menu = util.source_names[entry.source.name]
   -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
   return vim_item
 end

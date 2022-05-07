@@ -160,16 +160,23 @@ local lsp = {
   function()
     local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
     local clients = vim.lsp.get_active_clients()
+    local out = ""
+    local c = 0
     if next(clients) == nil then
       return ""
     end
     for _, client in ipairs(clients) do
       local filetypes = client.config.filetypes
       if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-        return client.name
+        if c == 0 then
+          out = out .. client.name
+        else
+          out = out .. " " .. client.name
+        end
       end
+      c = c + 1
     end
-    return ""
+    return out
   end,
   icon = ' ',
   colored = true,
@@ -242,7 +249,7 @@ local cfg =  {
     lualine_a = { ft_icon, filen },
     lualine_b = {   errors, warns, info, hint },
     lualine_c = { gpsll, sep},
-    lualine_x = { loc, prog, }, --ts
+    lualine_x = { lsp, prog, }, --ts
     lualine_y = { git,  diff},
     lualine_z = { ft_name },
         },

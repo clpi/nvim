@@ -13,11 +13,11 @@ M.preinit = function()
   vim.cmd[[packadd packer.nvim]]
 
   local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-  vim.api.nvim_create_autocmd('BufWritePost',
-    {
-      command = 'source plug.lua | PackerCompile',
-      group = packer_group, pattern = 'init.lua'
-    })
+  -- vim.api.nvim_create_autocmd('BufWritePost',
+  --   {
+  --     command = 'source plug.lua | PackerCompile',
+  --     group = packer_group, pattern = 'init.lua'
+  --   })
   return packer
 end
 

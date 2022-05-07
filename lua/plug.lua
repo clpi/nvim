@@ -40,6 +40,7 @@ use {"simrat39/rust-tools.nvim",
 end,
 ft = { "rust", "rs" },
 }
+  use { "vim-crystal/vim-crystal", ft = { "crystal" } }
   use 'rcarriga/nvim-notify'
   use { "andymass/vim-matchup",
     event = "CursorMoved",
@@ -77,6 +78,11 @@ ft = { "rust", "rs" },
       -- {"nvim-telescope/telescope-file-browser.nvim", opt = true },
     },
     config = function() require("plug.telescope") end,
+  }
+  use { 'aspeddro/pandoc.nvim', 
+    config = function() 
+      require("pandoc").setup(require("plug.pandoc").config)
+    end
   }
   -- use {
   --   'pwntester/octo.nvim',
@@ -129,7 +135,7 @@ ft = { "rust", "rs" },
   use {'jose-elias-alvarez/null-ls.nvim'}
 
   use {'nvim-treesitter/nvim-treesitter', 
-    run = ":TsUpdate",
+    run = ":TSUpdate",
     before = { "orgmode", "neorg" },
     requires = {
 			{ 'RRethy/nvim-treesitter-endwise', event = 'InsertEnter' },

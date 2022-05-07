@@ -30,6 +30,7 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
   "rust", "c", "lua", "cpp", "python", "zig",
   "yaml", "json", "jsonc", "javascript", "typescript",
+    "jsdoc", "proto", 
   "tsx", "markdown", "comment", "html",
   "dockerfile", "clojure", "commonlisp", "go",
   "bash", "fish", "ruby", "dart", "query", "http",
