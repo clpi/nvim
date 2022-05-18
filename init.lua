@@ -1,3 +1,11 @@
+
+-- if exists('g:vscode') then
+
+-- else 
+
+-- end
+
+
 require("plug")
 require("opts")
 require("acmd")
@@ -9,5 +17,9 @@ require("plug.telescope")
 require("plug.cmp")
 require("keys")
 
-
 vim.cmd[[ colorscheme cayu ]]
+
+-- vim.wo.colorscheme = "cayu"
+-- vim.api.nvim_command("colorscheme cayu")
+
+-- vim.cmd("colorscheme cayu")

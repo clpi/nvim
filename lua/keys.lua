@@ -29,18 +29,12 @@ vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles)
 -- KEYMAPS UTILS nvim.n
 local utils = require('utils')
 
--- " NOTE:"
-    -- - <C-h> = <BS>
-    -- - <C-i> = <TAB>
-    -- - <C-n> = <CR>
-    -- - <C-j> = <c-@>
-
 -- vim.keymap.set('n', ':', "<CMD>Telescope commands<CR>", {})
 
 -- ([
 
- local default = { noremap = true }
- local noremap = { noremap= true }
+local default = { noremap = true }
+local noremap = { noremap= true }
 local f =   { expr = false, noremap = false, silent = false }
 local en =  { expr = true, noremap = true, silent = false }
 local e =   { expr = true, noremap = false, silent = false }
@@ -748,11 +742,11 @@ nm("H", "<CMD>bprev<CR>", df)
 nm("L", "<CMD>bnext<CR>", df)
 nm("K", "<CMD>bprev<CR>", df)
 nm("J", "<CMD>bnext<CR>", df)
-nm("<space>wdn", "<CMD>VimwikiMakeDiaryNote<CR>", df)
-nm("<space>wdi", "<CMD>VimwikiDiaryIndex<CR>", df)
-nm("<space>wdt", "<CMD>VimwikiMakeTomorrowDiaryNote<CR>", df)
-nm("<space>wdy", "<CMD>VimwikiMakeYesterdayDiaryNote<CR>", df)
-nm("<space>wi", "<CMD>VimwikiIndex<CR>", df)
+-- nm("<space>wdn", "<CMD>VimwikiMakeDiaryNote<CR>", df)
+-- nm("<space>wdi", "<CMD>VimwikiDiaryIndex<CR>", df)
+-- nm("<space>wdt", "<CMD>VimwikiMakeTomorrowDiaryNote<CR>", df)
+-- nm("<space>wdy", "<CMD>VimwikiMakeYesterdayDiaryNote<CR>", df)
+-- nm("<space>wi", "<CMD>VimwikiIndex<CR>", df)
 nm("<space>n", "<CMD>NvimTreeToggle<CR>", df)
 nm("<c-o>", "<CMD>ToggleTerm<CR>", df)
 nm("<space>ff", tl .. "find_files<CR>", df)
@@ -782,67 +776,6 @@ vm("<C-j>", "<C-w><C-j>", df)
 vm("<C-h>", "<C-w><C-h>", df)
 vm("<C-l>", "<C-w><C-l>", df)
 
-nm(",fh", "<ESC>:Telescope oldfiles<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fb", "<ESC>:Telescope buffers<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fH", "<ESC>:Telescope help_tags<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fM", "<ESC>:Telescope man_pages<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fk", "<ESC>:Telescope keymaps<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f<TAB>", "<ESC>:Telescope reloader<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f<BS>", "<ESC>:Telescope resume<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fG", "<ESC>:Telescope grep_string<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fp", "<ESC>:Telescope projects<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fz", "<ESC>:Telescope current_buffer_fuzzy_find<CR>", { noremap = true, silent = true, nowait = true })
-nm(",Ft", "<ESC>:Telescope tagstack<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fT", "<ESC>:Telescope treesitter<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f,", "<ESC>:Telescope file_browser<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fd", "<ESC>:Telescope diagnostics<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fo", "<ESC>:Telescope vim_options<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fs", "<ESC>:Telescope symbols<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fg", "<ESC>:Telescope grep_string<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f<space>", "<ESC>:Telescope live_grep<CR>", { noremap = true, silent = true, nowait = true })
-nm(",,,", "<ESC>:Telescope pickers<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fB", "<ESC>:Telescope builtin<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f<CR>", "<ESC>:Telescope lsp_code_actions<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fR", "<ESC>:Telescope lsp_references<CR>", { noremap = true, silent = true, nowait = true })
-nm(",f-", "<ESC>:Telescope lsp_dynamic_workspace_symbols<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fO", "<ESC>:Telescope colorscheme<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fs", "<ESC>:Telescope lsp_document_symbols<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fS", "<ESC>:Telescope lsp_workspace_symbols<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fY", "<ESC>:Telescope symbols<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fI", "<ESC>:Telescope lsp_implementations<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fL", "<ESC>:Telescope lsp_definitions<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fr", "<ESC>:Telescope registers<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fy", "<ESC>:Telescope lsp_type_definitions<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fc", "<ESC>:Telescope commands<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fF", "<ESC>:Telescope fd<CR>", { noremap = true, silent = true, nowait = true })
-nm(",ft", "<ESC>:Telescope tags<CR>", { noremap = true, silent = true, nowait = true })
-nm(",ff", "<ESC>:Telescope find_files<CR>", { noremap = true, silent = true, nowait = true })
-nm(",fw", "<ESC>:Telescope live_grep search_dirs={os.getenv('WIKI')} <cr>", { noremap = true, silent = true })
-
-nm("<F1>", "<ESC>:TermExec cmd='just '", default)
-nm("<F2>", "<ESC>:TermExec cmd='just '", default)
-nm("<F3>", "<ESC>:TermExec cmd='just '", default)
-nm("<F4>", "<ESC>:TermExec cmd='just '", default)
-nm("<F5>", "<ESC>:TermExec cmd='just '", default)
-nm("<F6>", "<ESC>:TermExec cmd='just '", default)
-nm("<F7>", "<ESC>:TermExec cmd='just '", default)
-nm("<F8>", "<ESC>:TermExec cmd='just '", default)
-nm("<F9>", "<ESC>:TermExec cmd='just '", default)
-nm("<F10>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<F11>", '<ESC>:make ', default)
-nm("<F12>", "<ESC>:Zi<CR>", default)
-
-nm("<S-F1>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F2>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F3>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F4>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F5>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F6>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F7>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F8>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F9>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F10>", '<ESC>:TermExec cmd=""<LEFT>', default)
-nm("<S-F11>", '<ESC>:TermExec cmd=""<LEFT>', default)
 
 nm("<space>vps", "<ESC>:PackerSync<CR>", { noremap = true, silent = true, nowait = true })
 nm("<space>vps", "<ESC>:PackerSync<CR>", { noremap = true, silent = true, nowait = true })
@@ -955,6 +888,8 @@ require("keys.c-g")
 require("keys.c-s")
 require("keys.c-c")
 require("keys.spc")
+require("keymaps.comma")
+require("keymaps.fn")
 
 
 vim.keymap.set({ "n", "i", "v"}, "<C-f>", "<C-u>", { silent = true, nowait = true })

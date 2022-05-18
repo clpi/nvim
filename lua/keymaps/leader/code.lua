@@ -3,6 +3,7 @@
 local M = {}
 
 M.n = { maps = { name = "+code",
+
     a = { '<cmd>lua vim.lsp.buf.code_action()<CR>', "actions" },
     m = { '<ESC>:CodeActionMenu<CR>', 'codeaction'},
     D = { '<cmd>lua vim.lsp.buf.declaration()<CR>', "declarations"},
@@ -26,6 +27,7 @@ M.n = { maps = { name = "+code",
 	s = { ":LspStart<CR>", "start"},
 	S = { ":LspStop<CR>", "stop"},
 	r = { ":LspRestart<CR>", "restart"},
+	W = { "<CMD>W !sudo tee %<CR>"	, "sudowrite"}
     }
 } }
 

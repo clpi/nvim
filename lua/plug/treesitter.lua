@@ -1,5 +1,32 @@
 local parsers = require "nvim-treesitter.parsers"
 local parser_config = parsers.get_parser_configs()
+local ts_utils = require 'nvim-treesitter.ts_utils'
+  -- Highl node, range, get node rangr, len, update sel, node to lsp ange
+-- Swap nodes, goto node, memorize by buf tick, go to next, prev, goto, get at curs
+-- is parent, get children, 
+--
+-- nvim_treesitter#statusline(opts)
+--[[ {
+    indicator_size = 100,
+    type_patterns = {'class', 'function', 'method'},
+    transform_fn = function(line) return line:gsub('%s*[%[%(%{]*%s*$', '') end,
+    separator = ' -> '
+  } 
+]]--
+
+require("nvim-treesitter").define_modules({
+  custom = {
+    attach = function(bn, lang)
+
+    end,
+    detach = function(bn)
+
+    end,
+    is_supported = function(lang)
+
+    end,
+  }
+})
 
 parser_config.org = {
   install_info = {
@@ -30,6 +57,7 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
   "rust", "c", "lua", "cpp", "python", "zig",
   "yaml", "json", "jsonc", "javascript", "typescript",
+    "jsdoc", 
   "tsx", "markdown", "comment", "html",
   "dockerfile", "clojure", "commonlisp", "go",
   "bash", "fish", "ruby", "dart", "query", "http",
@@ -51,7 +79,10 @@ require('nvim-treesitter.configs').setup {
   },
   highlight = {
     enable = true, -- false will disable the whole extension
-    additional_vim_regex_highlighting = true,
+    set_custom_captures = {
+      ["hello"] = "Identifier",
+    },
+    additional_vim_regex_highlighting = "false",
   },
 incremental_selection = {
   enable = true,

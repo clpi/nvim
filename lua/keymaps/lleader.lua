@@ -34,7 +34,7 @@ M.n = { maps = {
 	  t = { ":TermToggle<CR>", "term"},
 	  g = { ":Telescope live_grep<CR>", "grep"},
   },
-  w = require("keymaps.lleader.wiki").n.maps,
+  -- w = require("keymaps.lleader.wiki").n.maps,
   c = { name = "+code"
 
   },
@@ -50,7 +50,7 @@ M.n = { maps = {
 	  p = { ":TermExec cmd='zig c++ %'<CR>", "c++ buf"},
 	  x = { ":TermExec cmd='zig build-exe'<CR>", "build-exe"},
 	  l = { ":TermExec cmd='zig build-lib'<CR>", "build-lib"},
-	  l = { ":TermExec cmd='zig build-obj'<CR>", "buil-obj"},
+	  o = { ":TermExec cmd='zig build-obj'<CR>", "buil-obj"},
   },
   p = { name = "+python",
     d = { ":TermExec cmd='python3 -m pydoc %'<CR>", "pydoc buf"},

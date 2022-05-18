@@ -12,5 +12,5 @@ return { name = "+zsh",
   x = { ":e ~/.zsh/scripts.zsh<CR>", "exports" },
   -- z = { ":e ~/.zshrc<CR>", "zshrc" },
   b = { ":e ~/.zsh/bindings.zsh<CR>", "exports" },
-  o = { ":e ~/.zsh/overrides.zsh<CR>", "overrides" },
+  O = { ":e ~/.zsh/overrides.zsh<CR>", "overrides" },
 }

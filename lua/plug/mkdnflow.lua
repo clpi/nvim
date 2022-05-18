@@ -7,7 +7,7 @@ require('mkdnflow').setup({
   -- Type: string. Navigate to links relative to the directory of the first-
   --     opened file.
   -- 'current' navigates links relative to currently open file
-  links_relative_to = 'first',
+  -- links_relative_to = 'first',
 
   -- Type: key-value pair(s). The plugin's features are enabled only when one
   -- of these filetypes is opened; otherwise, the plugin does nothing. NOTE:

@@ -35,13 +35,13 @@ local prev = function(fallback)
 end
 local miscicons_fmt = function(entry, vim_item)
   local typeicon = util.kind_icons[vim_item.kind]
-  local typetxt = string.sub(vim_item.kind, 0, 2)
+  local typetxt = string.sub(vim_item.kind, 0, 3)
   vim_item.kind = string.format('%s %s',typeicon, typetxt)
   -- vim_item.kind = typeicon
   -- local srcicon = util.src_icons[entry.source.name]
   -- local srctxt = string.sub(entry.kind.name, 0, 2)
   -- vim_item.menu = string.format('%s %s', srcicon, srctxt)
-  vim_item.menu = util.src_icons[entry.source.name]
+  vim_item.menu = util.source_names[entry.source.name]
   -- vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
   return vim_item
 end
@@ -74,6 +74,11 @@ cmp.setup {
   --     cmp.config.compare.order,
   --   }
   -- },
+  matching = {
+    disallow_fuzzy_matching = false,
+    disallow_partial_matching = false,
+    disallow_prefix_unmatching = true,
+  },
   formatting = {
     fields = {'kind', 'abbr','menu'},
     format = miscicons_fmt,
@@ -100,7 +105,16 @@ cmp.setup {
   preselect = cmp.PreselectMode.None,
   sources = {
     { name = 'nvim_lsp', group_index = 1 },
-    { name = 'nvim_lsp_signature_help',group_index=2},
+    {
+      name = 'nvim_lsp_signature_help',
+      experimental = { ghost_text = false } ,
+      enabled = true,
+      group_index=2,
+      option = {
+        preselect = cmp.PreselectMode.None,
+
+      }
+    },
     { name = 'nvim_lua' , group_index=2},
     { name = 'crates', group_index=2 },
     { name = 'path', group_index=3 },
@@ -108,7 +122,13 @@ cmp.setup {
     { name = 'neorg', group_index = 5 },
     { name = 'orgmode', group_index = 5 },
     { name = "luasnip", group_index = 6, option = { use_show_condition = false }},
-    { name = 'nvim_lsp_document_symbol', group_index = 7 },
+    {
+      name = 'nvim_lsp_document_symbol',
+      enabled = true,
+      experimental = { ghost_text = true } ,
+      option = { preselect = cmp.PreselectMode.None, },
+      group_index = 7
+    },
     { name = 'buffer', group_index = 7 },
   },
 }
@@ -128,6 +148,13 @@ cmp.setup.cmdline('/', {
     { name = "nvim_lsp_document_symbol" },
     -- { name = "cmdline_history"},
     { name = 'buffer' }
+  }
+})
+cmp.setup.cmdline("?", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = "nvim_lsp_document_symbol" },
+    { name = "buffer" }
   }
 })
 

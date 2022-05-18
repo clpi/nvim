@@ -1,3 +1,10 @@
+vim.g.calendar_frame = "default"
+-- vim.g.calendar_google_calendar =  1
+vim.g.calendar_google_task =  0
+-- let g:calendar_google_api_key = '...'
+-- let g:calendar_google_client_id = '....apps.googleusercontent.com'
+-- let g:calendar_google_client_secret = '...'
+
 vim.cmd[[
   nmap <Leader>wl <Plug>VimwikiToggleListItem
   vmap <Leader>wl <Plug>VimwikiToggleListItem
@@ -6,7 +13,6 @@ vim.cmd[[
 ]]
 
     vim.g.vimwiki_auto_chdir = 1
-    vim.g.vimwiki_global_ext = 1
     vim.g.vimwiki_use_mouse = 1
     vim.g.vimwiki_auto_header = 1
     vim.g.vimwiki_hl_headers = 1
@@ -15,13 +21,23 @@ vim.cmd[[
     vim.g.vimwiki_markdown_link_ext = 1
     vim.g.vimwiki_links_header = "Links"
     vim.g.vimwiki_links_header_level = 2
-    vim.g.vimwiki_global_ext = 1
-    vim.g.vimwiki_markdown_link_ext = 1
+    vim.g.vimwiki_global_ext = 0
+    -- vim.g.vimwiki_markdown_link_ext = 1
     vim.g.vimwiki_create_link = 1
     vim.g.vimwiki_tags_header = 'Tags'
     vim.g.vimwiki_tags_header_level = 2
     vim.g.vimwiki_toc_header = "Table of Contents"
     vim.g.vimwiki_toc_header_level = 2
+    vim.g.vimwiki_concea_pre = 2
+vim.g.vimwiki_cycle_bullets = 1
+vim.g.vimwiki_auto_diary_index = 1
+vim.g.vimwiki_auto_generate_tags = 1
+vim.g.vimwiki_auto_tags=1
+vim.g.diary_rel_path="jrnl"
+vim.g.vimwiki_ext = '.md'
+vim.g.vimwiki_Use_calendar = 1
+vim.g.vimwiki_Use_calendar = 1
+    vim.g.vimwiki_auto_generate_tags = 1
     vim.g.vimwiki_list_margin = 2
     -- vim.g.vimwiki_folding = 'expr'
     vim.g.vimwiki_listing_hl = 1
@@ -31,21 +47,23 @@ vim.cmd[[
     vim.g.vimwiki_html_header_numbering = 1
     vim.g.vimwiki_dir_link = 'index'
     vim.g.vimwiki_list_ignore_newline = 0
+    -- vim.g.vimwiki_listsyms = '✗○◐●✓'
+    -- vim.g.vimwiki_listsym_rejected = '✗'
     vim.g.vimwiki_listsyms = '✗○◐●✓'
-    vim.g.vimwiki_listsym_rejected = '✗'
-    vim.g.vimwiki_bullet_types = {'-', '•', '→'}
+    vim.g.vimwiki_bullet_types = {'•', '•', '→', "◉", "○", "✸", "✿" }
     vim.g.vimwiki_list = {
       {
         name = 'mk',
+        syntax = 'markdown',
+        ext = '.md',
         path_html = "/home/clp/mk/.html",
         path = '/home/clp/mk',
-        bullet_types = {'-', '•', '→'},
-        syntax = 'markdown',
+        cycle_bullcets = true,
+        bullet_types = {'•', '→', '-'},
         option_maxhi = 1,
         diary_rel_path = "diary",
         dir_link = "index",
         generated_links_caption = 1,
-        ext = '.md',
         create_link = 1,
         recurring_bullets = 1,
         conceal_oncechar_markers = 1,
@@ -67,7 +85,6 @@ vim.cmd[[
         diary_frequency = "daily",
         diary_index = "index",
         diary_start_week_day = "sunday",
-        cycle_bullets = 1,
         template_date_format = "%Y-%m-%d",
         rx_todo = 'C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
       }
@@ -249,3 +266,40 @@ vim.cmd[[
 --     --     rx_todo='C<%(TODO|DONE|STARTED|FIXME|FIXED|XXX|NOTE|IMPORTANT)>'
 --   }
 -- }
+local augroup = vim.api.nvim_create_augroup
+local nmap = function(k, c, o) vim.keymap.set("n", k, c, o) end
+local vmap = function(k, c, o) vim.keymap.set("v", k, c, o) end
+local aucmd = vim.api.nvim_create_autocmd
+function au_enter(group, pattern, callback)
+    aucmd("BufRead,BufEnter,BufWinEnter", {
+      callback = callback,
+      group = group,
+      pattern = pattern,
+  })
+end
+
+
+local default = { noremap = true, silent = false }
+
+local vwgroup = augroup("Vimwiki", { clear = true })
+au_enter(vwgroup, "*.md", function()
+  vim.cmd[[
+    command! Diary VimwikiDiaryIndex
+    augroup vimwikigroup
+        autocmd!
+        autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+    augroup end
+  ]]
+  vim.cmd[[
+    nmap ,wi <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wa <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wt <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wI <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wT <ESC>:silent! VimwikiSearch /- \[ \]/<CR><ESC>:lopen<CR>
+    nmap ,wgr <ESC>:silent! edit ~/mk/accounts/index.md<CR><CR>
+  ]]
+  vim.cmd[[ nmap ,wi]]
+  nmap(",w,", "<Plug>VimwikiToggleListItem", default)
+  vmap(",ww", "<Plug>VimwikiToggleListItem", default)
+  nmap(",wo", "<CMD>VimwikiChangeSymbolTo a)<CR>", default)
+end)
