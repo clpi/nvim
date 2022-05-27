@@ -135,7 +135,7 @@ o.termguicolors = true
 -- Set completeopt to have a better completion experience
 o.completeopt = 'menu,menuone,noselect,preview'
 
-vim.cmd[[colorscheme cayu]]
+-- vim.cmd[[colorscheme cayu]]
 
 
 vim.g.do_filetype_lua = 1

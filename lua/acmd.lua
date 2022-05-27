@@ -6,6 +6,9 @@ vim.cmd[[
   autocmd BufEnter,BufWinEnter *.vue setlocal ts=2 sw=2 sts=0
   autocmd BufEnter,BufWinEnter *.lua setlocal ts=2 sw=2 sts=0
   autocmd BufEnter,BufWinEnter *.json setlocal ts=2 sw=2
+
+
+  autocmd BufRead,BufNewFile *.org set ft=org
 ]]
   -- {
   --   "BufWritePre",

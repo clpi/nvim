@@ -9,6 +9,8 @@ require("plug.telescope")
 require("plug.cmp")
 require("keys")
 
+vim.cmd[[ colorscheme cayu]]
+
 -- vim.wo.colorscheme = "cayu"
 -- vim.api.nvim_command("colorscheme cayu")
 

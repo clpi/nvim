@@ -40,7 +40,6 @@ use {"simrat39/rust-tools.nvim",
 end,
 ft = { "rust", "rs" },
 }
-
   use { "vim-crystal/vim-crystal", ft = { "crystal" } }
   use 'rcarriga/nvim-notify'
   use { "andymass/vim-matchup",
@@ -165,14 +164,8 @@ ft = { "rust", "rs" },
   use {'williamboman/nvim-lsp-installer', config = function()
     require("plug.lspinstall")
   end}
-  -- use {'jbyuki/nabla.nvim', config = function()
-    -- vim.cmd[[nnoremap <leader>p :lua require("nabla").popup()<CR> " Customize with popup({border = ...})  : `single` (default), `double`, `rounded`]]
-  -- end}
   use {'hrsh7th/nvim-cmp',
     requires = {
-      -- { "aspeddro/cmp-pandoc.nvim", requires = {
-      --   "nvim-lua/plenary.nvim", 
-      -- }},
       { "hrsh7th/cmp-nvim-lsp-signature-help"},
       { "hrsh7th/cmp-nvim-lsp-document-symbol"},
       {'hrsh7th/cmp-nvim-lsp'},
@@ -224,9 +217,14 @@ ft = { "rust", "rs" },
   use { "kevinhwang91/nvim-bqf", ft = 'qf', config = function()
       require("plug.bqf")
   end}
-  -- use 'renerocksai/calendar-vim'
+  use 'renerocksai/calendar-vim'
   -- use 'renerocksai/telekasten.nvim'
-  -- use 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+  use {'iamcco/markdown-preview.nvim',
+    run = 'cd app && yarn install',
+    config = function()
+      require("plug.mdpreview")
+    end,
+  }
   use {"tpope/vim-dadbod"}
   use {"kristijanhusak/vim-dadbod-completion", event = "InsertCharPre"}
   use {"kristijanhusak/vim-dadbod-ui"}
@@ -239,7 +237,7 @@ ft = { "rust", "rs" },
   }
       -- config = function() require("plugins.nvim-tree") end,
   --   -- REPLs
-  use {
+  use { 
     'hkupty/iron.nvim',
     setup = function()
       vim.g.iron_map_defaults = 0
@@ -258,20 +256,27 @@ ft = { "rust", "rs" },
     requires = 'kyazdani42/nvim-web-devicons'
   }
   -- use({
-    -- 'mfussenegger/nvim-dap',
-    -- event = 'bufreadpre',
-    -- requires = {
-      -- { 'Pocco81/DAPInstall.nvim', event = 'BufReadPre', },
-        -- {'rcarriga/nvim-dap-ui'},-- config=function()require("plug.dapui")end}, 
-      -- 'theHamsta/nvim-dap-virtual-text',
-      -- 'mfussenegger/nvim-dap-python',
-    -- },
-    -- config = function()
-      -- require('plugins.dap')
-    -- end,
+  --   'mfussenegger/nvim-dap',
+  --   event = 'bufreadpre',
+  --   requires = {
+  --     { 'Pocco81/DAPInstall.nvim', event = 'BufReadPre', },
+  --       {'rcarriga/nvim-dap-ui'},-- config=function()require("plug.dapui")end},
+  --     'theHamsta/nvim-dap-virtual-text',
+  --     'mfussenegger/nvim-dap-python',
+  --   },
+  --   config = function()
+  --     require('plugins.dap')
+  --   end,
   -- })
   -- use 'nvim-neo-tree/neo-tree.nvim',
+  -- use 'lspcontainers/lspcontainers.nvim'
+  --
   use { "jose-elias-alvarez/nvim-lsp-ts-utils"}
+  -- use({'scalameta/nvim-metals', 
+  --   ft = "scala",
+  --   config = require("plug.metals"),
+  --   requires = { "nvim-lua/plenary.nvim" }
+  -- })
   use { "alaviss/nim.nvim", ft = "nim"}
   use {"akinsho/flutter-tools.nvim", ft = "dart", config =
       function() require("flutter-tools").setup{} end}
@@ -379,13 +384,13 @@ ft = { "rust", "rs" },
   --   ft = {"markdown", "*.md", "vimwiki.markdown"},
   --   config = function() require("plug.mkdnflow") end,
   -- }
-  use { "~/nv/cayu" , config = function()
-    vim.g.cayu_style = "night"
-    vim.g.cayu_italic_functions = true
-    vim.g.cayu_sidebars = { "Trouble", "NvimTree", "qf", "vista_kind", "terminal", "packer" }
+  use { "clpi/cyu.lua" , config = function()
+    vim.g.cyu_style = "night"
+    vim.g.cyu_italic_functions = true
+    vim.g.cyu_sidebars = { "Trouble", "NvimTree", "qf", "vista_kind", "terminal", "packer" }
   end}
-  use { "~/nv/exi.lua", config = function()
-  end}
+  -- use { "~/nv/exi.lua", config = function()
+  -- end}
   use { "kevinhwang91/nvim-hlslens", config = function()
 		require('hlslens').setup()
   end}

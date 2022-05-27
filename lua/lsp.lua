@@ -1,6 +1,8 @@
 local M = {}
 
 local lspx_ok, lspx = pcall(require, "lsp_extensions")
+local lspcfg_util = require("lspconfig.util")
+local root_pattern = lspcfg_util.root_pattern;
 
 M.autocmds = function()
   vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()]]
@@ -158,14 +160,66 @@ M.lspinstaller_enable = function()
           settings = require("lsp.srv.lua").settings,
         })
         return
-      elseif server.name == "rust_analyzer" then
+        elseif server.name == "clangd" then
+          server:setup({
+            cmd = require("lsp.srv.clangd"),
+            single_file_support = true,
+            on_attach = M.on_attach,
+            settings = require("lsp.srv.lua").settings,
+          })
+        elseif server.name == "ccls" then
+          server:setup({
+            cmd = { "ccls" },
+            single_file_support = false,
+            init_options = {
+              compilationDatabaseDirectory = "build",
+              index = {
+                threads = 0,
+              },
+              clang = {
+                excludeArgs={"-frounding-math"}
+              },
+          }
+        })
+      elseif server.name == "ltex" then
+        server:setup{
+          filetypes = { "bib", "gitcommit", "org", "plaintex", "rst", "movweb", "tex"},
+          cmd = { "ltex-ls"},
+          single_file_support = true,
+        }
+      elseif server.name == "metals" then
+        require("plug.metals")
+      elseif server.name == "denols" then
+        server:setup{
+          cmd ={ "deno", "lsp" },
+          filetypes = {
+            "javascript", "javascriptreact",
+            "javascript.jsx", "typescript",
+            "typescriptreact", "typescript.tsx",
+          },
+          init_options = {
+            enabled = true, enable = true,
+            lint = false,
+            unstable = true,
+          },
+          root_dir = root_pattern("deno.json", "deno.jsonc", "tsconfig.json", ".git"),
+        }
+      -- elseif server.name == "rust_analyzer" then
         -- setup rust_tools
       elseif server.name == "pyright" then
-
+        server:setup(opts)
       end
       server:setup(opts)
     end)
   end
+end
+
+M.misc_servers = function()
+  require"lspconfig".dhall_lsp_server.setup{
+    cmd ={ "dhall-lspserver"},
+    single_file_support = true,
+  }
+
 end
 
 M.setup = function()
