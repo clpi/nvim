@@ -1,0 +1,4 @@
+{
+  "clangd.path": "/opt/homebrew/bin/clangd"",
+  "clangd.checkUpdates": true
+}

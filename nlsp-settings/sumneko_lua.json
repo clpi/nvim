@@ -1,0 +1,9 @@
+{ 
+  "Lua.hint.enable": true,
+  "Lua.hint.setType": true,
+  "Lua.hover.enable": true,
+  "Lua.format.enable": true,
+  "Lua.hint.paramName": "All",
+  "Lua.hint.paramType": true,
+  "Lua.hint.arrayIndex": "Auto"
+}

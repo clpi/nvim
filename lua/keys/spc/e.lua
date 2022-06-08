@@ -1,0 +1,83 @@
+local vim = { name = "+vim related", 
+    C = { "<CMD>edit ~/nv/cayu/lua/cayu/theme.lua<CR>", "colorscheme"},
+    e = { "<CMD>edit ~/nv/exi.lua/lua/exi.lua/init.lua<CR>", "exi.lua"},
+    t = { "<CMD>edit ~/nv/termi.vim/plugin/termi.vim<CR>", "termi.vim"},
+  }
+
+  local wiki = { name = "+wiki", 
+    i = { "<ESC>:VimwikiIndex<CR>", "index"},
+    d = { "<ESC>:VimwikiDiaryIndex<CR>", "diary"},
+    v = { "<ESC>:e ~/.config/vim/conf/ft/vimwki.vim<CR>", "vim vimwiki"},
+    l = { "<ESC>:e ~/.config/lvim/lua/user/plug/vimwiki.vim<CR>", "lvim vimwiki"},
+    n = { "<ESC>:e ~/.config/nvim/lua/user/plugin/vimwiki.vim<CR>", "nvim vimwiki"},
+    z = { "<ESC>:e ~/.config/zk<CR>", "zk conf"},
+  }
+
+local proj = { name = "+projects", 
+}
+local template = { name = "+template", 
+}
+local script = { name = "+script", 
+}
+
+local style = { name = "+styles", 
+    s = { "<CMD>e ~/.config/sway/themes/ayumirage<CR>", "sway"},
+    w =  { "<CMD>e ~/.config/waybar/style.css<CR>", "waybar"},
+  }
+local config = { name = "+configs", 
+    a = { "<CMD>e  ~/.config/alacritty/alacritty.yml<CR>", "alacritty"},
+    k = { "<CMD>e  ~/.config/kitty/kitty.conf<CR>", "kitty"},
+    q = { "<CMD>e  ~/.config/qutebrowser/config.py<CR>", "qutebrowser"},
+    w = { "<CMD>e  ~/.config/waybar/config<CR>", "waybar"},
+    s = { "<CMD>e ~/.config/sway/config<CR>", "sway"},
+    h = { "<CMD>e ~/.config/helix/config.toml<CR>", "helix"},
+    K = { "<CMD>e ~/.config/kak/kakrc<CR>", "kakoune"},
+    ["<C-k>"] = { "<CMD>e ~/.config/kak-lsp/config.toml<CR>", "kak-lsp"},
+    ["/"] =  { "<CMD>FzfLua files cwd=~/.config<CR>", "waybar"},
+  }
+  local zsh = {name="+zsh",
+    z = { "<CMD>edit ~/.zshrc<CR>" , "zshrc"},
+    ["<space>"] = { "<CMD>edit ~/.zprofile<CR>", "zprofile" },
+    p = { "<CMD>edit ~/.zsh/path.zsh<CR>", "zprofile" },
+    v = { "<CMD>edit ~/.zshenv<CR>", "zshenv" },
+    e = { "<CMD>edit ~/.zsh/export.zsh<CR>", "export" },
+    a = { "<CMD>edit ~/.zsh/alias.zsh<CR>", "alias" },
+    x = { "<CMD>edit ~/.zsh/scripts.zsh<CR>", "alias" },
+    F = { "<CMD>edit ~/.zsh/fzf.zsh<CR>", "alias" },
+    o = { "<CMD>edit ~/.zsh/override.zsh<CR>", "override" },
+    f = { "<CMD>edit ~/.zsh/fn.zsh<CR>", "fn" },
+    m = { "<CMD>edit ~/.zsh/maps.zsh<CR>", "maps" },
+    s = { "<CMD>edit ~/.zsh/settings.zs<CR>h", "settings" },
+    S = { "<CMD>edit ~/.zsh/secrets.zsh<CR>", "secrets" },
+  }
+  local fish = { name = "+fish",
+    c = { "<CMD>e ~/.config/fish/config.fish<CR>", "config"},
+    f = { "<CMD>e ~/.config/fish/fn/fn.fish<CR>", "fn"},
+    e = { "<CMD>e ~/.config/fish/exp/exp.fish<CR>", "exp"},
+    a = { "<CMD>e ~/.config/fish/alias/alias.fish<CR>", "alias"},
+    o = { "<CMD>e ~/.config/fish/alias/override.fish<CR>", "override"},
+    s = { "<CMD>e ~/.config/fish/opts.fish<CR>", "opts"},
+    g = { "<CMD>e ~/.config/fish/alias/git.fish<CR>", "git"},
+    v = { "<CMD>e ~/.config/fish/env/env.fish<CR>", "env"},
+    r = { "<CMD>e ~/.config/fish/env/secret.fish<CR>", "secret"},
+    p = { "<CMD>e ~/.config/fish/env/path.fish<CR>", "path"},
+  }
+lvim.builtin.which_key.mappings.e = {
+  name = "+edit",
+  z = zsh,
+  f = fish,
+  c = config,
+  S = style,
+  t = template,
+  s = script,
+  v = vim,
+  w = wiki,
+  n = { "<CMD>e ~/.config/nu/nushell<CR>", "nu"},
+  N = { "<CMD>e ~/.config/nvim/init.lua<CR>", "nvim"},
+  b = { "<CMD>e ~/.bashrc<CR>", "bashrc"},
+  B = { "<CMD>e ~/.bash_profile<CR>", "bash prof"},
+  p = { "<CMD>Telescope projects<CR>", "fd proj"},
+  x = { "<CMD>e ~/.xonshrc<CR>", "fd proj"},
+  P = proj,
+
+}

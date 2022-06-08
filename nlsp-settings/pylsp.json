@@ -1,0 +1,40 @@
+{
+  "pylsp.plugins.jedi_completion.fuzzy": true,
+  "pylsp.plugins.jedi_completion.eager": true,
+  "pylsp.plugins.jedi_completion.enabled": true,
+  "pylsp.plugins.rope_completion.enabled": true,
+  "pylsp.plugins.rope_completion.eager": true,
+  "pylsp.plugins.jedi_completion.cache_for": [
+    "pandas",
+    "pyqt6",
+    "pyside6",
+    "numpy",
+    "fastapi",
+    "django",
+    "tensorflow",
+    "matplotlib"
+  ],
+  "pylsp.plugins.jedi_completion.include_params": true,
+  "pylsp.plugins.jedi_definition.follow_builtin_imports": true,
+  "pylsp.plugins.jedi_definition.follow_imports": true,
+  "pylsp.plugins.jedi_symbols.include_import_symbols": true,
+  "pylsp.plugins.jedi_completion.resolve_at_most": 50,
+  "pylsp.plugins.jedi.extra_paths": [
+    "/opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib"
+
+  ],
+  "pylsp.plugins.jedi_completion.include_class_objects": true,
+  "pylsp.plugins.yapf.enabled": true,
+  "pylsp.plugins.mccabe.enabled": true,
+  "pylsp.plugins.pylint.enabled": false,
+  "pylsp.plugins.preload.enabled": true,
+  "pylsp.plugins.pyflakes.enabled": true,
+  "pylsp.plugins.pydocstyle.enabled": false,
+  "pylsp.plugins.flake8.enabled": false,
+  "pylsp.plugins.pycodestyle.enabled": false,
+  "pylsp.plugins.jedi_hover.enabled": true,
+  "pylsp.plugins.jedi_symbols.enabled": true,
+  "pylsp.plugins.jedi_definition.enabled": true,
+  "pylsp.plugins.jedi_references.enabled": true,
+  "pylsp.plugins.jedi_signature_help.enabled": true
+}
