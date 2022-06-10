@@ -3,6 +3,7 @@ o.swapfile = false
 o.termguicolors = true
 o.linebreak = true
 o.splitbelow=true
+o.lazyredraw = true
 o.splitright = true
 o.smartindent=true
 o.expandtab=true

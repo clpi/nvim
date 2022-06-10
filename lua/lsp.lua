@@ -100,6 +100,7 @@ M.autofloat_diagnostics = function()
 end
 
 M.on_attach = function(client, bufnr)
+  -- require("aerial").on_attch(client, bufnr)
   local opts = { buffer = bufnr }
   local op = { noremap = true, silent = true, }
   vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
@@ -194,7 +195,9 @@ M.lspinstaller_enable = function()
         on_attach = M.on_attach,
         cmd = require "lsp.srv.clangd".cmd,
       })
+      return
     elseif server.name == "rust_analyzer" then
+      
       return
       -- setup rust_tools
     -- elseif server.name == "pyright" then

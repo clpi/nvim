@@ -20,7 +20,6 @@
   "pylsp.plugins.jedi_symbols.include_import_symbols": true,
   "pylsp.plugins.jedi_completion.resolve_at_most": 50,
   "pylsp.plugins.jedi.extra_paths": [
-    "/opt/local/Library/Frameworks/Python.framework/Versions/3.10/lib"
 
   ],
   "pylsp.plugins.jedi_completion.include_class_objects": true,

@@ -222,23 +222,112 @@ packer.startup({function(use)
   --
 use {"simrat39/rust-tools.nvim",
   config = function()
-    require("rust-tools").setup({
-    tools = {
-        autoSetHints = true,
-        hover_with_actions = true,
-        runnables = {
-        use_telescope = true,
-        },
-    },
-    server = {
-        cmd = { vim.fn.stdpath("data") .. "/lsp_servers/rust/rust-analyzer" },
-        -- on_attach = require("lvim.lsp").common_on_attach,
-        -- on_init = require("lvim.lsp").common_on_init,
-    },
-  })
-end,
-ft = { "rust", "rs" },
+      local opts = {
+	tools = { -- rust-tools options
+	  autoSetHints = true,
+	  hover_with_actions = true,
+	  executor = require("rust-tools/executors").termopen,
+	  on_initialized = nil,
+	  inlay_hints = {
+		  only_current_line = false,
+		  only_current_line_autocmd = "CursorHold",
+		  show_parameter_hints = true,
+		  show_variable_name = true,
+		  parameter_hints_prefix = "<- ",
+		  max_len_align = true,
+		  max_len_align_padding = 1,
+		  right_align = false,
+		  right_align_padding = 7,
+		  highlight = "Comment",
+	  },
+	  hover_actions = {
+		  border = {
+			  { "╭", "FloatBorder" },
+			  { "─", "FloatBorder" },
+			  { "╮", "FloatBorder" },
+			  { "│", "FloatBorder" },
+			  { "╯", "FloatBorder" },
+			  { "─", "FloatBorder" },
+			  { "╰", "FloatBorder" },
+			  { "│", "FloatBorder" },
+		  },
+		  auto_focus = false,
+	  },
+		crate_graph = {
+			backend = "x11",
+			output = nil,
+			full = true,
+			enabled_graphviz_backends = {
+				"bmp",
+				"cgimage",
+				"canon",
+				"dot",
+				"gv",
+				"xdot",
+				"xdot1.2",
+				"xdot1.4",
+				"eps",
+				"exr",
+				"fig",
+				"gd",
+				"gd2",
+				"gif",
+				"gtk",
+				"ico",
+				"cmap",
+				"ismap",
+				"imap",
+				"cmapx",
+				"imap_np",
+				"cmapx_np",
+				"jpg",
+				"jpeg",
+				"jpe",
+				"jp2",
+				"json",
+				"json0",
+				"dot_json",
+				"xdot_json",
+				"pdf",
+				"pic",
+				"pct",
+				"pict",
+				"plain",
+				"plain-ext",
+				"png",
+				"pov",
+				"ps",
+				"ps2",
+				"psd",
+				"sgi",
+				"svg",
+				"svgz",
+				"tga",
+				"tiff",
+				"tif",
+				"tk",
+				"vml",
+				"vmlz",
+				"wbmp",
+				"webp",
+				"xlib",
+				"x11",
+			},
+		},
+	},
+	server = {
+		standalone = true,
+	}, -- rust-analyer options
+	dap = {
+		adapter = {
+			type = "executable",
+			command = "lldb-vscode",
+			name = "rt_lldb",
+		},
+	},
 }
+require("rust-tools").setup(opts)
+end}
   use { "Saecki/crates.nvim",
       event = { "BufRead Cargo.toml" },
       after = { "nvim-cmp" },
@@ -389,6 +478,9 @@ ft = { "rust", "rs" },
   --
   --
   --
+  use { 'stevearc/aerial.nvim' , config = function()
+    require("plug.aerial")
+  end}
   --
     -- use { 'rcarriga/vim-ultest', requires={'vim-test/vim-test'}, run=":UpdateRemotePlugins"}
   use {'Olical/conjure', ft={"clojure", "scheme", "emacslisp"}}
@@ -426,7 +518,7 @@ ft = { "rust", "rs" },
   --
   --
   -- NOTE: :: @COLORS :: Neovim colorschemes ::::::::::::::::::::::::::::::::
-  use {"~/nv/cyud" , config = function()
+  use {"~/nv/cyu.lua" , config = function()
     vim.g.cayu_style = "night"
     vim.g.cayu_italic_functions = true
     vim.g.cayu_sidebars = { "Trouble", "NvimTree", "qf", "vista_kind", "terminal", "packer" }
@@ -503,6 +595,10 @@ ft = { "rust", "rs" },
   use { "kevinhwang91/nvim-hlslens", config = function()
 		require('hlslens').setup()
   end}
+  use {"sindrets/diffview.nvim", config=function()
+    require("plug.diffview")
+  end}
+
       -- Testing
     -- use {
     --   "rcarriga/vim-ultest",
@@ -519,7 +615,7 @@ ft = { "rust", "rs" },
   -- use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   -- use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   -- use {'EdenEast/nightfox.nvim'}
-    -- use { "sainnhe/everforest", opt = true }
+  use { "sainnhe/everforest"}
 end,
   -- use { 'aspeddro/pandoc.nvim', 
   --   config = function() 

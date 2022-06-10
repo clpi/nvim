@@ -8,6 +8,10 @@ M.w = vim.wo
 M.cmd = vim.cmd
 M.api = vim.api
 
+M.merge = function(...)
+  vim.tbl_extend('force', ...)
+end
+
 
 function _G.t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)

@@ -63,7 +63,7 @@ M.n = {  maps = {
     ["-"]       = nmaps("dir"),
     ["_"]       = nmaps("terminal"),
     ["\\"]      = nmaps("extras"),
-    a   = nmaps("workspace"),
+    a   = nmaps("a"),
     b = nmaps("b"),
     c = nmaps("code"),
     C = nmaps("config"),

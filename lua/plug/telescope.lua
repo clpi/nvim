@@ -4,8 +4,10 @@ require('telescope').load_extension 'gh'
 require('telescope').load_extension 'project'
 require('telescope').load_extension 'wiki' 
 require "telescope".load_extension "bookmarks"
+require("telescope").load_extension "aerial"
 -- require("telescope").load_extension('command_center')
 local action_layout = require("telescope.actions.layout")
+
 -- local actions = require("telescope.actions")
 -- local action_state = require "telescope.actions.state"
 
@@ -52,6 +54,9 @@ require('telescope').setup {
 
   },
   extensions = {
+    aerial = {
+      show_nesting = true,
+    },
     gh = {
 
     },

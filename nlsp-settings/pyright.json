@@ -4,7 +4,7 @@
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.useLibraryCodeForTypes": true,
-  "python.pythonPath": "/opt/local/bin/python3.10",
+  "python.pythonPath": "/usr/bin/python3.10",
   "pyright.disableLanguageServices": false,
   "python.analysis.typeCheckingMode": "basic"
 }
