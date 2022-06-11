@@ -197,7 +197,7 @@ M.lspinstaller_enable = function()
       })
       return
     elseif server.name == "rust_analyzer" then
-      
+      require"plug.rust_tools"
       return
       -- setup rust_tools
     -- elseif server.name == "pyright" then

@@ -1,5 +1,6 @@
 {
   "rust-analyzer.lens.run": true,
+  "rust-analyzer.imports.prefix": "plain",
   "rust-analyzer.lens.debug": true,
   "rust-analyzer.lens.enable": true,
   "rust-analyzer.callInfo.full": true,
@@ -10,6 +11,8 @@
   "rust-analyzer.lens.methodReferences": true,
   "rust-analyzer.inlayHints.renderColons": true,
   "rust-analyzer.completion.privateEditable.enable": true,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": true,
+
   "rust-analyzer.hoverActions.run": true,
   "rust-analyzer.cargo.allFeatures": false,
   "rust-analyzer.checkOnSave.enable": true,
