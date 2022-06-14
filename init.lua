@@ -17,7 +17,7 @@ require("plug.telescope")
 require("plug.cmp")
 require("keys")
 
-vim.cmd[[ colorscheme cayu ]]
+vim.cmd[[ colorscheme cayu ]    --quit                end revert or cherry-pick sequence]
 
 vim.g.do_filetype_lua = 1
 vim.g.did_load_filetyles = 0
