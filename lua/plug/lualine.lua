@@ -7,6 +7,13 @@ local gpsll = {
   left_padding = 1
 }
 
+local aerial = { "aerial",
+  sep = ' ) ',
+  depth = nil,
+  dense = false,
+  dense_sep = '.',
+}
+
 local search_result = function()
   if vim.v.hlsearch == 0 then
     return ''

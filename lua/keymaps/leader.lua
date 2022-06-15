@@ -32,6 +32,7 @@ local M = {}
     -- ["_"]       = nmaps("terminal"), graveyard
 M.n = {  maps = {
     ["<space>"] = nmaps("find"),
+    ["<c-space>"] = nmaps("spc"),
     ["<s-bs>"]   = {"<ESC>:<C-u>e #<CR>"},
     ["<bs>"] = { "<CMD>nohlsearch<CR>", "which_key_ignore" },
     ["<cr>"] = { "<CMD><UP><CR>", "repeat cmd"},
@@ -63,7 +64,7 @@ M.n = {  maps = {
     ["-"]       = nmaps("dir"),
     ["_"]       = nmaps("terminal"),
     ["\\"]      = nmaps("extras"),
-    a   = nmaps("workspace"),
+    a = nmaps("a"),
     b = nmaps("b"),
     c = nmaps("code"),
     C = nmaps("config"),

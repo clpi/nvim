@@ -36,6 +36,19 @@ packer.startup({function(use)
 --     require('goto-preview').setup {}
 --   end
 -- }
+
+  use {
+  'rmagatti/goto-preview',
+  config = function()
+    require('goto-preview').setup {}
+    vim.cmd[[
+      nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
+      nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
+      nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
+      nnoremap gpr <cmd>lua require('goto-preview').goto_preview_references()<CR>
+      ]]
+    end
+  }
   -- use { "ray-x/lsp_signature.nvim",
   --   config = function() require "lsp_signature".on_attach() end,
   --   event = "BufRead"
@@ -67,15 +80,17 @@ packer.startup({function(use)
   use {"stevearc/dressing.nvim", config = function()
 
   end}
-  use {
-    "windwp/nvim-spectre",
-    event = "BufRead",
-    config = function()
-      require("spectre").setup()
-    end,
-  }
+  -- use {
+  --   "windwp/nvim-spectre",
+  --   event = "BufRead",
+  --   config = function()
+  --     require("spectre").setup()
+  --   end,
+  -- }
 
-  --
+  use {'Julian/lean.nvim', config = function()
+    require("plug.lean").setup()
+  end}
   use 'rcarriga/nvim-notify'
   use { "andymass/vim-matchup",
     event = "CursorMoved",
@@ -104,10 +119,10 @@ packer.startup({function(use)
       { "jvgrootveld/telescope-zoxide" },
       { "nvim-telescope/telescope-github.nvim"},
       {'dhruvmanila/telescope-bookmarks.nvim', requires = 'tami5/sqlite.lua'},
-      -- {"crispgm/telescope-heading.nvim"}
+      {"crispgm/telescope-heading.nvim"},
+      -- { "nvim-neorg/neorg-telescope" }
         -- "nvim-telescope/telescope-media-files.nvim",
       -- { "LinArcX/telescope-command-palette.nvim" }
-      -- { "nvim-neorg/neorg-telescope" }
       -- {'nvim-telescope/telescope-ui-select.nvim' }
         -- { "nvim-telescope/telescope-dap.nvim" },
       -- {"nvim-telescope/telescope-file-browser.nvim", opt = true },
@@ -158,7 +173,7 @@ packer.startup({function(use)
   use { 'VonHeikemen/searchbox.nvim',
     requires = { 'MunifTanjim/nui.nvim' }
   }
-  -- use({ 'nanotee/sqls.nvim' })
+  use({ 'nanotee/sqls.nvim', config = function() require"plug.sqls" end })
   use {'jose-elias-alvarez/null-ls.nvim', 
     config = function()
       require("plug.null-ls")
@@ -170,7 +185,8 @@ packer.startup({function(use)
     before = { "orgmode", "neorg" },
     requires = {
 			{ 'RRethy/nvim-treesitter-endwise', event = 'InsertEnter' },
-      -- { 'RRethy/nvim-treesitter-textsubjects' },
+      {'nvim-treesitter/nvim-treesitter-textobjects'},
+      { 'RRethy/nvim-treesitter-textsubjects' },
       {'nvim-treesitter/nvim-treesitter-refactor',},
       { 'nvim-treesitter/nvim-treesitter-textobjects', event = "BufRead"},
       {"romgrk/nvim-treesitter-context"},
@@ -190,7 +206,6 @@ packer.startup({function(use)
       }
     }
   }
-  -- use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'neovim/nvim-lspconfig'
   use {'williamboman/nvim-lsp-installer', config = function()
     require("plug.lspinstall")
@@ -203,16 +218,11 @@ packer.startup({function(use)
   --     require('refactoring').setup({})
   --   end,
   -- })
-  -- use({
-  --   'danymat/neogen',
-  --   after = 'nvim-treesitter',
-  --   config = function()
-  --     require('neogen').setup({
-  --       enabled = true,
-  --       snippet_engine = 'luasnip',
-  --     })
-  --   end,
-		-- })
+use({
+  'danymat/neogen',
+  after = 'nvim-treesitter',
+  config = function() require("plug.neogen") end,
+})
 
   use { 'rafamadriz/friendly-snippets' }
 
@@ -248,11 +258,12 @@ ft = { "rust", "rs" },
   use { "kevinhwang91/nvim-bqf", ft = 'qf', config = function()
       require("plug.bqf")
   end}
-  -- use 'renerocksai/calendar-vim'
   -- use 'renerocksai/telekasten.nvim'
-  -- use 'iamcco/markdown-preview.nvim', { 'do': :: 'cd app && yarn install'  }
   use {"tpope/vim-dadbod"}
-  use {"kristijanhusak/vim-dadbod-completion", event = "InsertCharPre"}
+  use {"kristijanhusak/vim-dadbod-completion", 
+    event = "InsertCharPre",
+    config=function()require"plug.dadbod"end,
+  }
   use {"kristijanhusak/vim-dadbod-ui"}
   use { "ray-x/go.nvim", ft = "go", config = function()
       require('go').setup()
@@ -261,7 +272,7 @@ ft = { "rust", "rs" },
     requires = {'kyazdani42/nvim-web-devicons'},
     config = function() require("plug.nvimtree") end,
   }
-      -- config = function() require("plugins.nvim-tree") end,
+  use { "stevearc/aerial.nvim", config = function() require("plug.aerial") end }
   --   -- REPLs
   use {
     'hkupty/iron.nvim',
@@ -281,19 +292,19 @@ ft = { "rust", "rs" },
     config = function() require("bufferline").setup({}) end,
     requires = 'kyazdani42/nvim-web-devicons'
   }
-  -- use({
-    -- 'mfussenegger/nvim-dap',
-    -- event = 'bufreadpre',
-    -- requires = {
-      -- { 'Pocco81/DAPInstall.nvim', event = 'BufReadPre', },
-        -- {'rcarriga/nvim-dap-ui'},-- config=function()require("plug.dapui")end}, 
-      -- 'theHamsta/nvim-dap-virtual-text',
-      -- 'mfussenegger/nvim-dap-python',
-    -- },
-    -- config = function()
+  use({
+    'mfussenegger/nvim-dap',
+    event = 'bufreadpre',
+    requires = {
+      { 'Pocco81/DAPInstall.nvim', event = 'BufReadPre', },
+        {'rcarriga/nvim-dap-ui'},-- config=function()require("plug.dapui")end},
+      'theHamsta/nvim-dap-virtual-text',
+      'mfussenegger/nvim-dap-python',
+    },
+    config = function()
       -- require('plugins.dap')
-    -- end,
-  -- })
+    end,
+  })
   -- use 'nvim-neo-tree/neo-tree.nvim',
   use { "jose-elias-alvarez/nvim-lsp-ts-utils"}
   use { "SmiteshP/nvim-gps",
@@ -313,12 +324,6 @@ ft = { "rust", "rs" },
       require("fidget").setup()
   end}
 
-  -- use {
-  --   "nathom/filetype.nvim",
-  --   config = function()
-  --     -- require("user.filetype").config()
-  --   end,
-  -- }
   use {
     "simrat39/symbols-outline.nvim",
     setup = function()
@@ -367,12 +372,12 @@ ft = { "rust", "rs" },
   use {"github/copilot.vim",config = function() require("plug.copilot") end,}
   -- --  NOTE: :: @GIT    Git/VCS helpers and browsers                      |--
   -- --  NOTE: :: @FT     Filetype helpers, providers                       |--
-  --use 'nanotee/sqls.nvim'
-  use { "alaviss/nim.nvim", ft = "nim"}
-  use {"akinsho/flutter-tools.nvim", ft = "dart", config =
+  use { "alaviss/nim.nvim", event = "BufRead", ft = "nim"}
+  use {"akinsho/flutter-tools.nvim", 
+    event = "BufRead", ft = "dart", config =
       function() require("flutter-tools").setup{} end}
-  use {'ziglang/zig.vim', ft="zig"}
-  use { "peterhoeg/vim-qml", ft = { "qml" }}
+  use {'ziglang/zig.vim', event = "BufRead", ft="zig"}
+  use { "peterhoeg/vim-qml", event = "BufRead", ft = { "qml" }}
   use {'dkarter/bullets.vim', config=function()
     vim.g.bullets_set_mappings = 0
     vim.g.bullets_mapping_leader = '<C-b>'
@@ -391,19 +396,24 @@ ft = { "rust", "rs" },
   --
   --
     -- use { 'rcarriga/vim-ultest', requires={'vim-test/vim-test'}, run=":UpdateRemotePlugins"}
-  use {'Olical/conjure', ft={"clojure", "scheme", "emacslisp"}}
-  -- use {
-  --     "nvim-neorg/neorg",
-  --     tag = "latest",
-  --     -- ft = "norg",
-  --     -- after = {"nvim-treesitter", "telescope.nvim"},
-  --     config = function()
-  --       require("plug.neorg").setup()
-  --   end
-  -- }
+  use {
+      "nvim-neorg/neorg",
+      opt = true,
+      tag = "latest",
+      ft = "norg",
+      setup = vim.cmd("autocmd BufRead,BufNewFile *.norg setlocal filetype=norg"),
+      after = {"nvim-treesitter", "telescope.nvim"},
+      config = function() require("plug.neorg").setup() end,
+      requires = { "nvim-neorg/neorg-telescope", ft = { "norg" } },
+  }
+  use {'Olical/conjure', ft={"clojure", "scheme", "emacslisp", "commonlisp", "racket", "hy"}}
   use {'purescript-contrib/purescript-vim', ft = "purescript"}
   use {'hylang/vim-hy', ft = "hy"}
   use { "vim-crystal/vim-crystal", ft = { "crystal" } }
+  use {'NoahTheDuke/vim-just', ft =
+    {"justfile", "Justfile", "just", "*.just", "*.justfile"}
+
+  }
   -- use {
   --   event = "BufWinEnter",
   --   setup = function()
@@ -416,17 +426,13 @@ ft = { "rust", "rs" },
   --   config = function()
   -- }
 
-  use {'NoahTheDuke/vim-just', ft =
-    {"justfile", "Justfile", "just", "*.just", "*.justfile"}
-
-  }
   --
   --
   -- NOTE: :: @MISC :: Miscellaneous essentials and quirk-fixers         |--
   --
   --
   -- NOTE: :: @COLORS :: Neovim colorschemes ::::::::::::::::::::::::::::::::
-  use {"~/nv/cyud" , config = function()
+  use {"~/nv/cayu" , config = function()
     vim.g.cayu_style = "night"
     vim.g.cayu_italic_functions = true
     vim.g.cayu_sidebars = { "Trouble", "NvimTree", "qf", "vista_kind", "terminal", "packer" }
@@ -450,6 +456,22 @@ ft = { "rust", "rs" },
     }
   end
 }
+  use { 'tami5/lspsaga.nvim', config = function() 
+    --require("plug.lspsaga") 
+  end}  -- nightly
+  use { "gfanto/fzf-lsp.nvim", config = function()
+    vim.lsp.handlers["textDocument/codeAction"] = require'fzf_lsp'.code_action_handler
+    vim.lsp.handlers["textDocument/definition"] = require'fzf_lsp'.definition_handler
+    vim.lsp.handlers["textDocument/declaration"] = require'fzf_lsp'.declaration_handler
+    vim.lsp.handlers["textDocument/typeDefinition"] = require'fzf_lsp'.type_definition_handler
+    vim.lsp.handlers["textDocument/implementation"] = require'fzf_lsp'.implementation_handler
+    vim.lsp.handlers["textDocument/references"] = require'fzf_lsp'.references_handler
+    vim.lsp.handlers["textDocument/documentSymbol"] = require'fzf_lsp'.document_symbol_handler
+    vim.lsp.handlers["workspace/symbol"] = require'fzf_lsp'.workspace_symbol_handler
+    vim.lsp.handlers["callHierarchy/incomingCalls"] = require'fzf_lsp'.incoming_calls_handler
+    vim.lsp.handlers["callHierarchy/outgoingCalls"] = require'fzf_lsp'.outgoing_calls_handle
+
+  end}
   use { "itchyny/calendar.vim" }
   use {'vimwiki/vimwiki', 
     branch = "dev", 
@@ -488,10 +510,10 @@ ft = { "rust", "rs" },
   --   ft = {"markdown", "*.md", "vimwiki.markdown"},
   --   config = function() require("plug.mkdnflow") end,
   -- }
-  -- use {'m-demare/hlargs.nvim',
-  --   config = function() require("plug.hlargs") end,
-  --   requires = { 'nvim-treesitter/nvim-treesitter'
-  -- }
+--   use {'m-demare/hlargs.nvim',
+--     config = function() require("plug.hlargs") end,
+--     requires = { 'nvim-treesitter/nvim-treesitter'
+--   }
 -- }
   use { 'iamcco/markdown-preview.nvim',
     run = function()
@@ -500,9 +522,10 @@ ft = { "rust", "rs" },
     config = function() require("plug.mkdp") end,
     ft = { "*.md", "markdown", "pandoc", "vimwiki" },
   }
-  use { "kevinhwang91/nvim-hlslens", config = function()
-		require('hlslens').setup()
-  end}
+  use "skywind3000/asyncrun.vim"
+  -- use { "kevinhwang91/nvim-hlslens", config = function()
+		-- require('hlslens').setup()
+  -- end}
       -- Testing
     -- use {
     --   "rcarriga/vim-ultest",

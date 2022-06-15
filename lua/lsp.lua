@@ -1,103 +1,12 @@
 local M = {}
 
+local kmap = vim.keymap.set
+local lsp = vim.lsp
+local buf = vim.lsp.buf
+
 local lspx_ok, lspx = pcall(require, "lsp_extensions")
 
-M.autocmds = function()
-  vim.cmd [[
-      " au BufEnter,CursorHold,InsertLeave <buffer> lua vim.lsp.codelens.refresh()
-      au CursorHold * lua vim.diagnostic.open_float({border="single", focusable=false})
-    ]]
 
-end
-
-M.refs = function()
-    local  refs = vim.lsp.handlers["textDocument/references"]
-    vim.lsp.handlers["textDocument/references"] = vim.lsp.with(
-      refs, { loclist = true }
-    )
-end
-M.lsp_inlay_hints = function()
-  if lspx_ok then
-    require'lsp_extensions'.inlay_hints{
-      highlight = "Comment",
-      prefix = " > ",
-      aligned = false,
-      only_current_line = false,
-      source = "always", 
-      enabled = { "ChainingHint" }
-    }
-  end
-end
-
-M.lsp_diagnostics_ext = function()
-  if lspx_ok then
-    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-      require('lsp_extensions.workspace.diagnostic').handler, {
-        float = {
-            source = "always",
-        },
-        severity_sort = true,
-        virtual_text = {
-          prefix = "»",
-          spacing = 2,
-        },
-        signs = {
-          active = true,
-          values = {
-            { name = "DiagnosticSignError", text = "" },
-            { name = "DiagnosticSignWarn", text = "" },
-            { name = "DiagnosticSignHint", text = "" },
-            { name = "DiagnosticSignInfo", text = "" },
-          }
-        },
-        update_in_insert = true,
-        underline = true,
-      })
-  end
-end
-
-M.define_signs = function()
-  local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-  -- local signs = { Error = "•", Warn = "•", Hint = "•" , Info = "•" }
-  for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-  end
-  vim.fn.sign_define("DiagnosticSignError", {
-      text = " ",
-      texthl = "DiagnosticSignError",
-      numhl = "DiagnosticSignError"
-  })
-  vim.fn.sign_define("DiagnosticSignWarn", {
-      text = " ",
-      texthl = "DiagnosticSignWarn",
-      numhl = "DiagnosticSignWarn"
-  })
-  vim.fn.sign_define("DiagnosticSignInfo", {
-      text = " ",
-      texthl = "DiagnosticSignInfo",
-      numhl = "DiagnosticSignInfo"
-  })
-  vim.fn.sign_define("DiagnosticSignHint", {
-      text = " ",
-      texthl = "DiagnosticSignHint",
-      numhl = "DiagnosticSignHint"
-  })
-end
-
-M.hover = function()
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-    border = "single"
-  })
-end
-
-M.autofloat_diagnostics = function()
-    vim.o.updatetime = 150
-    vim.cmd [[
-      autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})
-    ]]
-end
 
 M.on_attach = function(client, bufnr)
   local opts = { buffer = bufnr }
@@ -105,119 +14,119 @@ M.on_attach = function(client, bufnr)
   vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
   vim.cmd[[nnoremap <silent><nowait> ,,a <ESC>:CodeActionMenu<CR>]]
 
-  vim.keymap.set("n",',s', vim.diagnostic.setloclist, { noremap = true, silent = true })
-  vim.keymap.set("n",',a', '<ESC>:CodeActionMenu<CR>', op)
-  vim.keymap.set("n",',h', vim.lsp.buf.hover, op)
-  vim.keymap.set("n",',o', vim.diagnostic.open_float, { noremap = true })
-  vim.keymap.set("n",',R', vim.lsp.buf.rename, { noremap = true })
+  kmap("n",',s', vim.diagnostic.setloclist, { noremap = true, silent = true })
+  kmap("n",',a', '<ESC>:CodeActionMenu<CR>', op)
+  kmap("n",',h', buf.hover, op)
+  kmap("n",',o', vim.diagnostic.open_float, { noremap = true })
+  kmap("n",',R', buf.rename, { noremap = true })
 
-  vim.keymap.set("i",'<c-z>', vim.lsp.buf.signature_help, op)
-  vim.keymap.set("n",'ga', vim.lsp.buf.code_action, op)
-  vim.keymap.set("n",'g-', vim.diagnostic.open_float, { noremap = true })
-  vim.keymap.set("n",'g=', vim.lsp.buf.signature_help, op)
-  vim.keymap.set("n",'gh', vim.lsp.buf.declaration, op)
-  vim.keymap.set("n",'gR', '<cmd>TroubleToggle lsp_references<CR>', op)
-  vim.keymap.set("n",'gE', '<cmd>TroubleToggle lsp_definitions<CR>', op)
-  vim.keymap.set("n",'gI', '<cmd>TroubleToggle lsp_implementations<CR>', op)
-  vim.keymap.set("n",'gs', vim.lsp.buf.document_symbol, op)
-  vim.keymap.set("n",'gS', vim.lsp.buf.workspace_symbol, op)
-  vim.keymap.set("n",'c<CR>', '<ESC>:CodeActionMenu<CR>', op)
-  vim.keymap.set("n",'gy', vim.lsp.buf.type_definition, op)
-  vim.keymap.set("i",'<C-x>', vim.lsp.buf.signature_help, op)
-  vim.keymap.set("n",'<S-Tab>', vim.diagnostic.goto_prev, { noremap = true })
-  vim.keymap.set("n",'<Tab>', vim.diagnostic.goto_next, { noremap = true })
-  vim.keymap.set("n",'<space>rn', vim.lsp.buf.rename, { noremap = true })
-  vim.keymap.set("n",'<space>wa', vim.lsp.buf.add_workspace_folder, op)
-  vim.keymap.set("n",'<space>wr', vim.lsp.buf.remove_workspace_folder, op)
-  vim.keymap.set("n",'<space>rn', vim.lsp.buf.rename, op)
-  vim.keymap.set("n",',ca', vim.lsp.buf.code_action, op)
-  vim.keymap.set("n",'<space>F', vim.lsp.buf.formatting, op)
+  kmap("i",'<c-z>', buf.signature_help, op)
+  kmap("n",'ga', buf.code_action, op)
+  kmap("n",'g-', vim.diagnostic.open_float, { noremap = true })
+  kmap("n",'g=', buf.signature_help, op)
+  kmap("n",'gh', buf.declaration, op)
+  kmap("n",'gR', '<cmd>TroubleToggle lsp_references<CR>', op)
+  kmap("n",'gE', '<cmd>TroubleToggle lsp_definitions<CR>', op)
+  kmap("n",'gI', '<cmd>TroubleToggle lsp_implementations<CR>', op)
+  kmap("n",'gs', buf.document_symbol, op)
+  kmap("n",'gS', buf.workspace_symbol, op)
+  kmap("n",'c<CR>', '<ESC>:CodeActionMenu<CR>', op)
+  kmap("n",'gy', buf.type_definition, op)
+  kmap("i",'<C-x>', buf.signature_help, op)
+  kmap("n",'<S-Tab>', vim.diagnostic.goto_prev, { noremap = true })
+  kmap("n",'<Tab>', vim.diagnostic.goto_next, { noremap = true })
+  kmap("n",'<space>rn', buf.rename, { noremap = true })
+  kmap("n",'<space>wa', buf.add_workspace_folder, op)
+  kmap("n",'<space>wr', buf.remove_workspace_folder, op)
+  kmap("n",'<space>rn', buf.rename, op)
+  kmap("n",',ca', buf.code_action, op)
+  kmap("n",'<space>F', buf.formatting, op)
 -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', vim.lsp.omnifunc)
-  vim.keymap.set('n', 'ge', vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<c-n>', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<leader>Wa', vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set('n', '<leader>Wr', vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set('n', '<leader>Wl', function()
-    vim.inspect(vim.lsp.buf.list_workspace_folders())
+  kmap('n', 'ge', buf.declaration, opts)
+  kmap('n', 'gd', buf.definition, opts)
+  kmap('n', 'gi', buf.implementation, opts)
+  kmap('n', '<c-n>', buf.signature_help, opts)
+  kmap('n', '<leader>Wa', buf.add_workspace_folder, opts)
+  kmap('n', '<leader>Wr', buf.remove_workspace_folder, opts)
+  kmap('n', '<leader>Wl', function()
+    vim.inspect(buf.list_workspace_folders())
   end, opts)
-  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', '\a', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<space>cs', require('telescope.builtin').lsp_document_symbols, opts)
-  vim.keymap.set("n",'<space>cy', vim.lsp.buf.type_definition, op)
-  vim.keymap.set("n",'<space>ca', '<ESC>:CodeActionMenu<CR>', op)
-  vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+  kmap('n', '<leader>D', buf.type_definition, opts)
+  kmap('n', '<leader>rn', buf.rename, opts)
+  kmap('n', 'gr', buf.references, opts)
+  kmap('n', '\a', buf.code_action, opts)
+  kmap('n', '<space>cs', require('telescope.builtin').lsp_document_symbols, opts)
+  kmap("n",'<space>cy', buf.type_definition, op)
+  kmap("n",'<space>ca', '<ESC>:CodeActionMenu<CR>', op)
+  vim.api.nvim_create_user_command("Format", buf.formatting, {})
 end
 
-M.float_diagnostics = function()
-end
 -- nvim-cmp supports additional completion capabilities
-M.capabilities = function()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-  capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.preselectSupport = true
-  capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-  capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-  capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-  capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-  capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = { 
-      'documentation', 'detail', 'additionalTextEdits', 
-    },
-  }
-  return capabilities
-end
+M.capabilities = require("lsp.completion").capabilities
+
+M.opts = {
+  capabilities = M.capabilities(),
+  on_attach = M.on_attach,
+  handlers = require("lsp.handlers").handlers,
+}
 
 M.lspinstaller_enable = function()
-  local lsp_installer = require("nvim-lsp-installer")
-  lsp_installer.on_server_ready(function(server)
-    local opts = {
-      capabilities = M.capabilities(),
-      on_attach = M.on_attach,
-    }
+  require("nvim-lsp-installer").on_server_ready(function(server)
     if server.name == "sumneko_lua" then
       server:setup({
-        capabilities = M.capabilities(),
-        on_attach = M.on_attach,
-        settings = require("lsp.srv.lua").settings,
+        -- settings = require("lsp.srv.lua").settings,
       })
       return
     elseif server.name == "clangd" then
+      local clangd = require("lsp.srv.clangd")
       server:setup({
-        capabilities = M.capabilities(),
-        on_attach = M.on_attach,
-        cmd = require "lsp.srv.clangd".cmd,
+        cmd = clangd.path,
+        settings = {
+          clangd = {
+            path = clangd.path,
+            arguments = clangd.args,
+            fallbackFlags = clangd.fallback,
+            checkUpdates = true,
+          }
+        }
       })
+      return
+    elseif server.name == "ccls" then
+      server:setup({
+        cmd = { "/usr/bin/ccls", "-v=2"}
+      })
+      return
     elseif server.name == "rust_analyzer" then
       return
-      -- setup rust_tools
-    -- elseif server.name == "pyright" then
-      -- return
-
+    elseif server.name == "sqls" then
+      server:setup({
+        on_attach = function(client, bufnr)
+          require("sqls").on_attach(client, bufnr)
+        end,
+      })
+      return
+    else server:setup(M.opts)
     end
-    server:setup(opts)
   end)
 end
 
-M.sigHelp = function()
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-      border = "single"
-  })
+M.nonauto_server_setup = function()
+  require"lspconfig".mint.setup{ }
+  -- require'lspconfig'.typeprof.setup{}
+  -- require"lspconfig".ols.setup{ }
+  require'lspconfig'.please.setup{ }
+  require'lspconfig'.pyre.setup{ }
+  -- require'lspconfig'.racket_langserver.setup{ }
+  require"lspconfig".tilt_ls.setup { }
+
+  -- vim.cmd[[ autocmd BufRead Tiltfile setf=tiltfile ]]
 end
 
 M.setup = function()
-  M.autocmds()
-  M.hover()
-  M.sigHelp()
-  M.define_signs()
-  -- M.lsp_inlay_hints()
+  require("lsp.completion").setup()
+  require("lsp.handlers").setup()
+  require("lsp.diagnostics").setup()
+  M.nonauto_server_setup()
   M.lspinstaller_enable()
   require("lspconfig").hls.setup{}
 end

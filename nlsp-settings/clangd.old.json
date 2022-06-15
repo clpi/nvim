@@ -1,0 +1,27 @@
+{
+  "clangd.path": "/bin/clangd",
+  "clangd.checkUpdates": true,
+  "clangd.detectExtensionConflicts": true,
+  "clangd.onConfigChanged": "restart","
+  ""clangd.restartAfterCrash": true,
+  "clangd.arguments": [
+    "--pch-storage=disk",
+    "--background-index",
+    "--malloc-trim",
+    "--enable-config",
+    "--all-scopes-completion=true",
+    "--clang-tidy",
+    "--function-arg-placeholders",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu",
+    "--header-insertion-dorators",
+    "--query-driver='/sbin/clang*,/usr/sbin/clang*,/usr/bin/clang*'",
+    "--hidden-features",
+    "--include-cleaner-stdlib",
+    "--ranking-model=heuristics",
+    "--suggest-missing-includes",
+    "--resource-dir='/usr/include'",
+    "--pretty"
+  ],"
+
+}

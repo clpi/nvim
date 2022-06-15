@@ -4,6 +4,7 @@ require('telescope').load_extension 'gh'
 require('telescope').load_extension 'project'
 require('telescope').load_extension 'wiki' 
 require "telescope".load_extension "bookmarks"
+require("telescope").load_extension "aerial"
 -- require("telescope").load_extension('command_center')
 local action_layout = require("telescope.actions.layout")
 -- local actions = require("telescope.actions")
@@ -52,6 +53,16 @@ require('telescope').setup {
 
   },
   extensions = {
+    aerial = {
+      show_nesting = true,
+    },
+    bookmarks = {
+      selected_browser = "qutebrowser",
+      url_open_command = "open",
+      url_open_plugin = nil,
+      full_path = true,
+      firefox_profile_name = "chrisp1877"
+    },
     gh = {
 
     },

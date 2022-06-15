@@ -1,11 +1,3 @@
-
--- if exists('g:vscode') then
-
--- else 
-
--- end
-
-
 require("plug")
 require("opts")
 require("acmd")
@@ -17,12 +9,10 @@ require("plug.telescope")
 require("plug.cmp")
 require("keys")
 
-vim.cmd[[ colorscheme cayu ]    --quit                end revert or cherry-pick sequence]
-
+-- vim.cmd[[ colorscheme cayu ]]
+require("cayu").colorscheme()
+--
 vim.g.do_filetype_lua = 1
-vim.g.did_load_filetyles = 0
+vim.g.did_load_filetypes = 0
 
--- vim.wo.colorscheme = "cayu"
--- vim.api.nvim_command("colorscheme cayu")
 
--- vim.cmd("colorscheme cayu")

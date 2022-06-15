@@ -117,11 +117,13 @@ cmp.setup {
     },
     { name = 'nvim_lua' , group_index=2},
     { name = 'crates', group_index=2 },
+    { name = "vim-dadbod-completion", group_index = 2},
     { name = "npm", group_index = 2,},
     { name = 'path', group_index=3 },
     { name = 'copilot', group_index=4 },
     { name = 'neorg', group_index = 5 },
     { name = 'orgmode', group_index = 5 },
+    { name = 'vimwiki', group_index = 5 },
     { name = "luasnip", group_index = 6, option = { use_show_condition = false }},
     {
       name = 'nvim_lsp_document_symbol',
